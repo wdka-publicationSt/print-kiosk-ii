@@ -4,21 +4,11 @@
 # Script downloads all the namescpace 0 (Main) onto a dictionary
 # Dictionary is dumped onto all_pages.json
 #####
-from mwclient import Site
-from mwclient.listing import List
-#from mwclient import Page
-from argparse import ArgumentParser
+from wikisite import *
+
 from pprint import pprint
 from datetime import datetime
 import json
-p = ArgumentParser()
-p.add_argument("--host", default="beyond-social.org")
-p.add_argument("--path", default="/wiki/", help="nb: should end with /")
-args = p.parse_args()
-
-
-site = Site(('http',args.host), args.path)
-print(site)
 
 f = open('all_pages.json', 'w')
 
