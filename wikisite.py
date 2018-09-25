@@ -16,4 +16,4 @@ args = p.parse_args()
 
 
 site = Site(('http',args.host), args.path)
-print(site)
+# print(site)
