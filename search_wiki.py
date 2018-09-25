@@ -14,6 +14,6 @@ def search_request(query, namespace, reach):
 	    print('title:', match['title'])
 	    print('snippet:', match['snippet'])
 	    print('\n')
-	    results.append(match['title'])
+	    search_results_titles.append(match['title'])
 	
 	return search_results_titles
