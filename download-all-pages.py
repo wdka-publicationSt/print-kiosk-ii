@@ -5,6 +5,7 @@
 # Dictionary is dumped onto all_pages.json
 #####
 from wikisite import *
+from count_words import count_article_length
 
 from pprint import pprint
 from datetime import datetime
@@ -21,6 +22,7 @@ def all_pages_dict():
         pages_dict[page_title]["id"] =  page.pageid 
         pages_dict[page_title]["title"] = page.page_title        
         pages_dict[page_title]["text"] = (site.api('parse',  pageid = pages_dict[page_title]["id"]))['parse']['text']['*'] # html text
+        pages_dict[page_title]["length"] = count_article_length(pages_dict[page_title]["text"]) # length of the article (number of words)
         #print(pages_dict[page_title]["text"])
         pages_dict[page_title]["extlinks"] = list(page.extlinks())
         pages_dict[page_title]["categories"] = [cat.page_title for cat in list(page.categories())] # .page_title because categories are a also pages, and presented as such
