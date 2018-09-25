@@ -20,7 +20,7 @@ def all_pages_dict():
         pages_dict[page_title] = {} # sub dictionary for each page
         pages_dict[page_title]["id"] =  page.pageid 
         pages_dict[page_title]["title"] = page.page_title        
-        pages_dict[page_title]["text"] = page.text() 
+        pages_dict[page_title]["text"] = (site.api('parse',  pageid = pages_dict[page_title]["id"]))['parse']['text']['*'] # html text
         #print(pages_dict[page_title]["text"])
         pages_dict[page_title]["extlinks"] = list(page.extlinks())
         pages_dict[page_title]["categories"] = [cat.page_title for cat in list(page.categories())] # .page_title because categories are a also pages, and presented as such
