@@ -24,14 +24,13 @@ def all_pages_dict():
         #print(pages_dict[page_title]["text"])
         pages_dict[page_title]["extlinks"] = list(page.extlinks())
         pages_dict[page_title]["categories"] = [cat.page_title for cat in list(page.categories())] # .page_title because categories are a also pages, and presented as such
-        pages_dict[page_title]["lastedittime"] = page.edit_time
         pages_dict[page_title]["images"] = [img.page_title for img in list(page.images())] #img.name #includes 'File:' in response
         pages_dict[page_title]["revisions"] = { "recent_revision_user": list(page.revisions())[0]['user'],
                            "recent_revision_time": list(page.revisions())[0]['timestamp'],
                            "recent_revision_time_iso":datetime(*(list(page.revisions())[0]['timestamp'])[:6]).isoformat(),
-                           "last_revision_user": list(page.revisions())[-1]['user'],
-                           "last_revision_time": list(page.revisions())[-1]['timestamp'],
-                           "last_revision_time_iso":datetime(*(list(page.revisions())[-1]['timestamp'])[:6]).isoformat()
+                           "first_revision_user": list(page.revisions())[-1]['user'],
+                           "first_revision_time": list(page.revisions())[-1]['timestamp'],
+                           "first_revision_time_iso":datetime(*(list(page.revisions())[-1]['timestamp'])[:6]).isoformat()
 
                            # time info comes in time.struct_time format
                            # making possible to query with  time.tm_year time.tm_mon
