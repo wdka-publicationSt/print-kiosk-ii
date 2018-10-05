@@ -15,7 +15,7 @@ questions = {
 	'03-free-association' : {
             'question' : 'Please write the first word that comes to your mind.',
             'variables' : ['activism', 'democracy', 'representation'],
-            'reply' : '',
+            'reply' : '{pagenumber} pages were found with to have the terms {terms} in them',
             'error' : ''
         }
 }
