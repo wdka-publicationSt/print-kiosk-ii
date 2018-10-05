@@ -1,11 +1,14 @@
+#!/usr/bin/env python3
 from sys import stdin, stderr, stdout
 import requests
 import json
 from datetime import datetime
-
+from questions import questions
+from colors import colors
 from pprint import pprint
-from search_wiki import *
+from search_wiki import search_request
 
+print(questions)
 # * * * * * * * * * * * * * * * * * * * * * * *
 # Load pages index
 # 
@@ -19,6 +22,7 @@ def load_mw_data():
 
 data = load_mw_data()
 
+current_match = [] # list of matching articles which will be added and filtered out to produce the final list of articles
 
 # * * * * * * * * * * * * * * * * * * * * * * *
 # Questions > Article index
@@ -30,30 +34,105 @@ data = load_mw_data()
 # The list of pages is shrinking depending on 
 # the answers that are given.
 
-def load_questions():
-	lines = open('./questions.txt', 'r').readlines()
-	questions = [line.split('/')[0] for line in lines]
-	variables = [line.split('/')[1].replace(' ', '') for line in lines]
-	tags = [line.split('/')[2].replace(' ', '').replace('\n', '') for line in lines]
-	return questions, variables, tags
 
-def process_first_edit(first_edit_hour):
+
+def check_first_edit(first_edit_hour):
+        # default is 'no'
+        # if article is written between 9-17 return 'yes'
 	result = 'no'
 	if first_edit_hour >= 9:
 		if first_edit_hour <= 17:
 			result = 'yes'
 	return result
 
-questions, variables, tags = load_questions()
-# print(questions, tags)
+# questions, variables, tags = load_questions()
+# # print(questions, tags)
 
-queue = {} # queue is the temporary storage object 
+# queue = {} # queue is the temporary storage object 
 
 # start
-print('\nPlease answer these questions with your general first impression response. Don\'t overthink it.')
+print(colors.HEADER,
+      'Please answer these questions with your general first impression response. Don\'t overthink it.',
+      colors.ENDC,
+      '\n')
+
+
+for key in sorted(questions):
+        q = questions[key]['question']
+        options = questions[key]['variables']
+        reply  = questions[key]['reply']
+        error =  questions[key]['error']
+        
+        if 'time' in key:                
+                print(colors.GREEN,
+                      q,
+                      colors.BLUE,                      
+                      options,
+                      colors.ENDC,
+                      file=stderr)
+                
+                answer = stdin.readline().lower()
+                
+                if 'yes' in answer:
+                        print('\n', 'Really? Me too!','\n', file=stderr)
+                elif 'no' in answer:
+                        print('\n', 'Oh yes me neither.','\n', file=stderr)                        
+                else:
+                        print('Hmm ...','\n')
+
+                # populate the current_match by comparing the answer with the officehours
+                for page, page_data in data.items(): 
+                        first_edit_hour = data[page]['revisions']['first_revision_time'][3] # get the hour in which the first edit of a page is made                                
+                        check = check_first_edit(first_edit_hour) # check if the first_edit_hour matches the officehours with the answer                        
+                        if check in answer: # according to the answer and match
+                                #print (check, answer)
+                                current_match.append(page)
+                                
+                # print('\nThese pages are something for you:\n\n', current_match)
+                print('\n> > > {} pages are added to your print queue ...\n'.format(len(current_match)))
+
+#print( current_match )
+        elif 'common-words' in key:                
+                while True: # start a loop until (if)
+                        print(colors.GREEN,
+                              q,
+                              colors.BLUE,                      
+                              options,
+                              colors.ENDC,
+                              file=stderr)
+                        answer = stdin.readline().lower()                
+                        search_results = search_request(query=answer, namespace='0', reach='text')
+                        if len(search_results) >= 20: # get minimum number of results 
+                                print ( colors.BLUE,
+                                        reply.format(pagenumber=len(search_results), term=answer )
+                                )
+                                break  # and break the while loop
+                        else:   # continue loop
+                                print (colors.FAIL,
+                                       error.format(answer)
+                                )
+                                
+                current_match = list( set(current_match).intersection(search_results)) 
+
+                print( '\n> > > but in the print queue, only {} pages were found to contain the word {}\n'.format(len(current_match), answer ) )
+                
+                       
+#                print ('serch_results', search_results)
+                
+                
+        elif 'free-association' in key:                
+                print(colors.GREEN,
+                      q,
+                      colors.BLUE,                      
+                      options,
+                      colors.ENDC,
+                      file=stderr)
+
+                
+'''                
 
 for i, question in enumerate(questions):
-	tag = tags[i]
+        tag = tags[i]
 	var = variables[i]
 	print('\n* * *\n') # aesthetic-line-break :)
 	# print('tag:', tag)
@@ -84,7 +163,7 @@ for i, question in enumerate(questions):
 			first_edit_hour = data[page]['revisions']['first_revision_time'][3]
 
 			# check if the first_edit_hour matches with the answer 
-			match = process_first_edit(first_edit_hour)
+			match = check_first_edit(first_edit_hour)
 			print('\n*{}* is produced between 9am-5pm:'.format(page), match)
 
 			if match in answer:
@@ -139,7 +218,7 @@ for i, question in enumerate(questions):
 			print('\n> > > {} pages are added to your print queue ...\n'.format(len(search_results)))
 
 
-
+'''
 # pprint(queue)
 
 
@@ -152,3 +231,4 @@ for i, question in enumerate(questions):
 
 # pprint(data)
 # queue = data
+

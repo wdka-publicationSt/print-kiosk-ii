@@ -11,9 +11,9 @@ def search_request(query, namespace, reach):
 	search_results_titles = []
 	for match in list(search_results): 
 
-	    print('title:', match['title'])
-	    print('snippet:', match['snippet'])
-	    print('\n')
+	    # print('title:', match['title'])
+	    # print('snippet:', match['snippet'])
+	    # print('\n')
 	    search_results_titles.append(match['title'])
 	
 	return search_results_titles
