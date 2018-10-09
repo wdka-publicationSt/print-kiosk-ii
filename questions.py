@@ -14,8 +14,9 @@ questions = {
         },
 	'03-free-association' : {
             'question' : 'Please write the first word that comes to your mind.',
-            'variables' : ['activism', 'democracy', 'representation'],
+            'variables' : ['activism', 'democracy', 'representation', 'engagement', 'community'], # more words could be here, from which only 3 will be randomly selected, and more if needed in order to  exampand the print quue 
             'reply' : '{pagenumber} pages were found with to have the terms {terms} in them',
-            'error' : ''
+            'error': '{terms} have been in the minds of the Beyond Social editors, let\'s try others'
+            
         }
 }
