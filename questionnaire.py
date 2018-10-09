@@ -8,27 +8,24 @@ from colors import colors
 from pprint import pprint
 from search_wiki import search_request
 from random import shuffle
-print(questions)
-
-def load_mw_data(): # Load pages index
-	f = open('all_pages.json','r').read()
-	data = json.loads(f)
-	return data
-
-data = load_mw_data()
-
-current_match = [] # list of matching articles which will be added and filtered out to produce the final list of articles
+#print(questions)
 
 # * * * * * * * * * * * * * * * * * * * * * * *
 # Questions asked to the user generate the Articles' index
 # 
 # * * * * * * * * * * * * * * * * * * * * * * *
-# This is where we work with the questions from 
-# the questionnaire, and process their answers.
+# This is where we work with the questions from  the *questions* dict, and ask the user to answer them
 #
-# The list of pages is shrinking depending on 
-# the answers that are given.
+# The list of pages is shrinking depending on  the answers given to each question
+# That is done in the main loop which cycles thought the *questions* dict
+# and if conditions trigger the different processes for each question
 
+# TODO: add to questions['03-free-association']['user_answers'] # perhaps as tuple
+
+def load_mw_data(): # Load pages index
+	f = open('all_pages.json','r').read()
+	data = json.loads(f)
+	return data
 
 def check_first_edit(first_edit_hour):
         # default is 'no'
@@ -39,12 +36,13 @@ def check_first_edit(first_edit_hour):
 			result = 'yes'
 	return result
 
+data = load_mw_data()
+articles_index = [] # list of matching articles; after articles are added in 'time' questions, they are filtered out inf following questions to produce the final list of articles
 
 print(colors.HEADER,
       'Please answer these questions with your general first impression response. Don\'t overthink it.',
       colors.ENDC,
       '\n')
-
 
 for key in sorted(questions):
     q = questions[key]['question']
@@ -60,7 +58,6 @@ for key in sorted(questions):
                   colors.ENDC,
                   file=stderr)
             answer = stdin.readline().lower()
-
             if 'yes' in answer:
                     print('\n', 'Really? Me too!','\n', file=stderr)
             elif 'no' in answer:
@@ -68,19 +65,22 @@ for key in sorted(questions):
             else:
                     print('Hmm ...','\n')
 
-            # populate the current_match by comparing the answer with the officehours
+            # populate the articles_index by comparing the answer with the officehours
             for page, page_data in data.items(): 
-                    first_edit_hour = data[page]['revisions']['first_revision_time'][3] # get the hour in which the first edit of a page is made                                
-                    check = check_first_edit(first_edit_hour) # check if the first_edit_hour matches the officehours with the answer                        
-                    if check in answer: # according to the answer and match
-                            #print (check, answer)
-                            current_match.append(page)
-
-            # print('\nThese pages are something for you:\n\n', current_match)
-            print('\n> > > {} pages are added to your print queue ...\n'.format(len(current_match)))
-
-    elif 'common-words' in key:                
-            while True: # start a loop until (if)
+                    first_edit_hour = data[page]['revisions']['first_revision_time'][3] #hour of first edit of page
+                    check = check_first_edit(first_edit_hour) # first_edit_hour matches the officehours? yes or no
+                    if check in answer: # yes(officehours) in yes(answer) or no(officehours) in no(answer)
+                            articles_index.append(page)
+            # print('\nThese pages are something for you:\n\n', articles_index)
+            print('\n> > > {} pages are added to your print queue ...\n'.format(len(articles_index)))
+            
+    elif 'common-words' in key:
+            # the user is asked for a word *answer* that should be in BS curriculum
+            # the *answer* is searched for with the API            
+            while True:
+                    # the while loop keeps asking for *answer* until a *search_results* has > N results in current_mach,
+                    # in which case the loop breaks
+                    # otherwise it continues asking the user for terms, searching, and comparing to articles_index
                     print(colors.GREEN,
                           q,
                           colors.BLUE,                      
@@ -89,7 +89,7 @@ for key in sorted(questions):
                           file=stderr)
                     answer = stdin.readline().lower()                
                     search_results = search_request(query=answer, namespace='0', reach='text')
-                    if  len(list( set(current_match).intersection( search_results ) )) > 10: # if search_results in current_match are > N                       
+                    if  len(list( set(articles_index).intersection( search_results ) )) > 20: # if search_results in articles_index are > N                       
                             print ( colors.BLUE,
                                     reply.format(pagenumber=len(search_results), term=answer )
                             )
@@ -99,70 +99,46 @@ for key in sorted(questions):
                                    error.format(answer)
                             )
 
-            current_match = list( set(current_match).intersection(search_results)) 
-            print( '\n> > > In the print queue, {} pages were found to contain the word {}\n'.format(len(current_match), answer ) )                
+            articles_index = list( set(articles_index).intersection(search_results)) 
+            print( '\n> > > In the print queue, {} pages were found to contain the word {}\n'.format(len(articles_index), answer ) )                
             # print ('serch_results', search_results)
 
+            
     if 'free-association' in key:
-            # while True:
-            user_terms = []
-            search_results = []
-            search_results_in_current_match = []
+            # free-association: should result in at least 10 articles
+            # uses the shuffled questions['03-free-association']['options']
+            # which are looped through
+            # at each iteration of the loop one *subquestion* is asked
+            # the *answer* is searched for using the API, returning results in *search*
+            # an intersection of the *search* with the *articles_index* is performed resulting in 
+            # the common articles to *search* & *articles_index* are added to *search_results_in_articles_index*
+            # the loop break when more than 10 articles are in the *search_results_in_articles_index*
+            
+            user_terms = [] # TODO: add to questions['03-free-association']['user_answers'] # perhaps as tuple
+            search_results_in_articles_index = []
             print(colors.GREEN,
                   q,
                   file=stderr)
             shuffle(options)
-            print( options )
-            for word in options:
-                subquestion = 'When I say {}, you say: ___________'.format(word)
+            #print( options )
+            for option in options:
+                subquestion = 'When I say {}, you say: ___________'.format(option)
                 print(subquestion, file=stderr)
                 answer = stdin.readline()
-                user_terms.append(answer.replace('\n', ''))
-                
-                # want to have at least 10 articles (results that are on the current_match:
-                # it can be done by asking for a free association word *answer*
-                # that word *answer* is searched for , stored in *search* variable
-                # search varible is intersected with the *current_match*, storing it in *search_results_in_current_match*
-                # when  *search_results_in_current_match* is >  10:
-                # break the loop
-                
+                #user_terms.append(answer.replace('\n', '')) # TODO add to questions dict                
                 search = search_request(query=answer, namespace=0, reach='text')
-                for i in  list( set(current_match).intersection( search ) ):
-                        if i not in search_results_in_current_match:
-                                search_results_in_current_match.append(i)
+                for i in  list( set(articles_index).intersection( search ) ):
+                        if i not in search_results_in_articles_index:
+                                search_results_in_articles_index.append(i)
                                 
-                print('search_results_in_current_match:', search_results_in_current_match )
-                print('current_match', len(current_match),
+                #print('search_results_in_articles_index:', search_results_in_articles_index )
+                #print('articles_index', len(articles_index),
                       'search:',len(search),
-                      'intersection:', len(search_results_in_current_match) )
+                      'intersection:', len(search_results_in_articles_index) )
 
-                
-                #for i in search_intersect_current_match:                        
-                #        current_match.append( list( set(current_match).intersection( search ) )[0] )
-                
-                # print('search:', search, len(search),'\n' ,
-                #      'results_in_current_match:', search_results_in_current_match, len(search_results_in_current_match))
-
-                if len(search_results_in_current_match) > 10:
+                if len(search_results_in_articles_index) > 10:
                         break
+            articles_index = search_results_in_articles_index
 
-                    
-                
-            #     if  len(list( set(current_match).intersection( search_results ) )) > 10: # if search_results in current_match are > N                       
-            #             print ( colors.BLUE,
-            #                     reply.format(pagenumber=len(search_results), terms=((", ").join(user_terms)) )
-            #             )
-            #             break   
-            #     else:
-            #             print (colors.FAIL,
-            #                    error.format( terms=((", ").join(user_terms)) )
-            #             )
-                       
-
-            # current_match = list( set(current_match).intersection( search_results ) ) 
-            # print( '\n> > > In the print queue, {} pages were found to contain the words {}\n'.format(len(current_match), (", ").join(user_terms)  ) )
-
-
-# TODO: IF THERE ARE NOT ENOUGHT ENTRIES IN THE CURRENT MATCH INCLUDE A QUESTION THAT SUPPLEMENTS MORE ENTRIES.
-
+print('Final articles_index:', articles_index) 
 
