@@ -60,10 +60,13 @@ def get_article_template(title, contributors, categories, content):
 		categories_string = '...'
 	else:
 		categories_string = ''
-		for c in categories:
+		for i, c in enumerate(categories):
 			string = '<em>{}</em>'.format(c)
-			categories_string = categories_string + ' & ' + string
-
+			if i == 0:
+				categories_string = categories_string + string
+			else:
+				categories_string = categories_string + ' & ' + string
+			
 	template = '''<div class="article_wrapper">
 		<h1 class="article_title">{}</h1>
 		<div class="article_metadata">CONTRIBUTOR(s) {}</div>
