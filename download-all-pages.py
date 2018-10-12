@@ -5,7 +5,7 @@
 # Dictionary is dumped onto all_pages.json
 #####
 from wikisite import *
-from count_words import count_article_length
+from functions import count_article_length
 
 from pprint import pprint
 from datetime import datetime
