@@ -27,12 +27,15 @@ def all_pages_dict():
         pages_dict[page_title]["extlinks"] = list(page.extlinks())
         pages_dict[page_title]["categories"] = [cat.page_title for cat in list(page.categories())] # .page_title because categories are a also pages, and presented as such
         pages_dict[page_title]["images"] = [img.page_title for img in list(page.images())] #img.name #includes 'File:' in response
-        pages_dict[page_title]["revisions"] = { "recent_revision_user": list(page.revisions())[0]['user'],
-                           "recent_revision_time": list(page.revisions())[0]['timestamp'],
-                           "recent_revision_time_iso":datetime(*(list(page.revisions())[0]['timestamp'])[:6]).isoformat(),
-                           "first_revision_user": list(page.revisions())[-1]['user'],
-                           "first_revision_time": list(page.revisions())[-1]['timestamp'],
-                           "first_revision_time_iso":datetime(*(list(page.revisions())[-1]['timestamp'])[:6]).isoformat()
+        revisions =  list(page.revisions())
+        contributors = list(set([rev['user'] for rev in revisions]))
+        pages_dict[page_title]['contributors'] = contributors
+        pages_dict[page_title]["revisions"] = { "recent_revision_user": revisions[0]['user'],
+                           "recent_revision_time": revisions[0]['timestamp'],
+                           "recent_revision_time_iso":datetime(*(revisions[0]['timestamp'])[:6]).isoformat(),
+                           "first_revision_user": revisions[-1]['user'],
+                           "first_revision_time": revisions[-1]['timestamp'],
+                           "first_revision_time_iso":datetime(*(revisions[-1]['timestamp'])[:6]).isoformat()
 
                            # time info comes in time.struct_time format
                            # making possible to query with  time.tm_year time.tm_mon
