@@ -61,11 +61,11 @@ def questionnaire():
                       file=stderr)
                 answer = stdin.readline().lower()
                 if 'yes' in answer:
-                        print('\n', 'Really? Me too!','\n', file=stderr)
+                        print(colors.GREEN, '\n', 'Really? Me too!','\n', colors.ENDC, file=stderr)
                 elif 'no' in answer:
-                        print('\n', 'Oh yes me neither.','\n', file=stderr)                        
+                        print(colors.GREEN, '\n', 'Oh yes me neither.','\n', colors.ENDC, file=stderr)                        
                 else:
-                        print('Hmm ...','\n')
+                        print(colors.GREEN, 'Hmm ...','\n', colors.ENDC)
 
                 # populate the articles_index by comparing the answer with the officehours
                 for page, page_data in data.items(): 
@@ -74,7 +74,7 @@ def questionnaire():
                         if check in answer: # yes(officehours) in yes(answer) or no(officehours) in no(answer)
                                 articles_index.append(page)
                 # print('\nThese pages are something for you:\n\n', articles_index)
-                print('\n> > > {} pages are added to your print queue ...\n'.format(len(articles_index)))
+                print(colors.BLUE,'\n> > > {} pages are added to your print queue ...\n'.format(len(articles_index)), colors.ENDC)
 
         elif 'common-words' in key:
                 # the user is asked for a word *answer* that should be in BS curriculum
@@ -92,17 +92,13 @@ def questionnaire():
                         answer = stdin.readline().lower()                
                         search_results = search_request(query=answer, namespace='0', reach='text')
                         if  len(list( set(articles_index).intersection( search_results ) )) > 20: # if search_results in articles_index are > N                       
-                                print ( colors.BLUE,
-                                        reply.format(pagenumber=len(search_results), term=answer )
-                                )
+                                print ( colors.BLUE, reply.format(pagenumber=len(search_results), term=answer), colors.ENDC ) 
                                 break  # and break the while loop
                         else:   # continue loop
-                                print (colors.FAIL,
-                                       error.format(answer)
-                                )
+                                print (colors.FAIL, error.format(answer), colors.ENDC)
 
                 articles_index = list( set(articles_index).intersection(search_results)) 
-                print( '\n> > > In the print queue, {} pages were found to contain the word {}\n'.format(len(articles_index), answer ) )                
+                print(colors.BLUE, '\n> > > In the print queue, {} pages were found to contain the word {}\n'.format(len(articles_index), answer ),colors.ENDC )                
                 # print ('serch_results', search_results)
 
 
@@ -116,7 +112,7 @@ def questionnaire():
                 # the common articles to *search* & *articles_index* are added to *search_results_in_articles_index*
                 # the loop break when more than 10 articles are in the *search_results_in_articles_index*
 
-                user_terms = [] # TODO: add to questions['03-free-association']['user_answers'] # perhaps as tuple
+                user_terms = [] 
                 search_results_in_articles_index = []
                 print(colors.GREEN,
                       q,
@@ -125,9 +121,9 @@ def questionnaire():
                 #print( options )
                 for option in options:
                     subquestion = 'When I say {}, you say: ___________'.format(option)
-                    print(subquestion, file=stderr)
+                    print(colors.HEADER, subquestion, colors.ENDC, file=stderr)
                     answer = stdin.readline()
-                    #user_terms.append(answer.replace('\n', '')) # TODO add to questions dict                
+                    user_terms.append(answer.replace('\n', '')) # TODO add to questions dict                
                     search = search_request(query=answer, namespace=0, reach='text')
                     for i in  list( set(articles_index).intersection( search ) ):
                             if i not in search_results_in_articles_index:
@@ -138,8 +134,14 @@ def questionnaire():
 
                     if len(search_results_in_articles_index) > 10:
                             break
-                articles_index = search_results_in_articles_index
-
+                if len(search_results_in_articles_index) > 15: # in case there is a selection of > 15 articles
+                    shuffle(search_results_in_articles_index)
+                    articles_index = search_results_in_articles_index[:14]
+                else:
+                    articles_index = search_results_in_articles_index
+                print(colors.BLUE, '\n> > > In the print queue, {} pages were found to contain the words {}\n'.format(len(articles_index),(", ").join(user_terms) ) )
+                print( colors.HEADER, '\n> > > The following articles will be printed:\n', colors.GREEN, (("\n").join(articles_index ) ), colors.ENDC )
     return articles_index
 
-
+# QUESTIONNAIRE IS RUN BY run-questionnaire.py or print-sequence.py
+# articles_index = questionnaire()
