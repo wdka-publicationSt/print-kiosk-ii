@@ -52,20 +52,24 @@ def questionnaire():
         reply  = questions[key]['reply']
         error =  questions[key]['error']
 
-        if 'time' in key:                
-                print(colors.GREEN,
-                      q,
-                      colors.BLUE,                      
-                      options,
-                      colors.ENDC,
-                      file=stderr)
-                answer = stdin.readline().lower()
-                if 'yes' in answer:
-                        print(colors.GREEN, '\n', 'Really? Me too!','\n', colors.ENDC, file=stderr)
-                elif 'no' in answer:
-                        print(colors.GREEN, '\n', 'Oh yes me neither.','\n', colors.ENDC, file=stderr)                        
-                else:
-                        print(colors.GREEN, 'Hmm ...','\n', colors.ENDC)
+        if 'time' in key:
+                while True:
+                    print(colors.GREEN,
+                          q,
+                          colors.BLUE,                      
+                          options,
+                          colors.ENDC,
+                          file=stderr)
+                    answer = stdin.readline().lower()
+                    if 'yes' in answer:
+                            print(colors.WARNING, '\n', 'Really? Me too!','\n', colors.ENDC, file=stderr)
+                            break
+                    elif 'no' in answer:
+                            print(colors.WARNING, '\n' 'Oh yes me neither.','\n', colors.ENDC, file=stderr)
+                            break
+                    print(colors.FAIL, 'Hmm ..not quite sure about', colors.WARNING, answer, colors.FAIL,
+                          '\n', 'Can you please answer yes or no?','\n',
+                          colors.ENDC)
 
                 # populate the articles_index by comparing the answer with the officehours
                 for page, page_data in data.items(): 
