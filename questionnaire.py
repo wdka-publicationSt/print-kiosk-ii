@@ -23,18 +23,18 @@ from random import shuffle
 # TODO: add to questions['03-free-association']['user_answers'] # perhaps as tuple
 
 def load_mw_data(): # Load pages index
-	f = open('all_pages.json','r').read()
-	data = json.loads(f)
-	return data
+    f = open('all_pages.json','r').read()
+    data = json.loads(f)
+    return data
 
 def check_first_edit(first_edit_hour):
-        # default is 'no'
-        # if article is written between 9-17 return 'yes'
-	result = 'no'
-	if first_edit_hour >= 9:
-		if first_edit_hour <= 17:
-			result = 'yes'
-	return result
+    # default is 'no'
+    # if article is written between 9-17 return 'yes'
+    result = 'no'
+    if first_edit_hour >= 9:
+        if first_edit_hour <= 17:
+            result = 'yes'
+    return result
 
 data = load_mw_data()
 
@@ -62,11 +62,11 @@ def questionnaire():
                       file=stderr)
                 answer = stdin.readline().lower()
                 if 'yes' in answer:
-                        print(colors.WARNING, '\n', 'Really? Me too!','\n', colors.ENDC, file=stderr)
-                        break
+                    print(colors.WARNING, '\n', 'Really? Me too!','\n', colors.ENDC, file=stderr)
+                    break
                 elif 'no' in answer:
-                        print(colors.WARNING, '\n' 'Oh yes me neither.','\n', colors.ENDC, file=stderr)
-                        break
+                    print(colors.WARNING, '\n' 'Oh yes me neither.','\n', colors.ENDC, file=stderr)
+                    break
                 print(colors.FAIL, 'Hmm ..not quite sure about', colors.WARNING, answer, colors.FAIL,
                       '\n', 'Can you please answer yes or no?','\n',
                       colors.ENDC)
@@ -96,10 +96,10 @@ def questionnaire():
                 answer = stdin.readline().lower()                
                 search_results = search_request(query=answer, namespace='0', reach='text')
                 if  len(list( set(articles_index).intersection( search_results ) )) > 20: # if search_results in articles_index are > N                       
-                        print ( colors.BLUE, reply.format(pagenumber=len(search_results), term=answer), colors.ENDC ) 
-                        break  # and break the while loop
+                    print ( colors.BLUE, reply.format(pagenumber=len(search_results), term=answer), colors.ENDC ) 
+                    break  # and break the while loop
                 else:   # continue loop
-                        print (colors.FAIL, error.format(answer), colors.ENDC)
+                    print (colors.FAIL, error.format(answer), colors.ENDC)
 
             articles_index = list( set(articles_index).intersection(search_results)) 
             print(colors.BLUE, '\n> > > In the print queue, {} pages were found to contain the word {}\n'.format(len(articles_index), answer ),colors.ENDC )                
@@ -130,14 +130,14 @@ def questionnaire():
                 user_terms.append(answer.replace('\n', '')) # TODO add to questions dict                
                 search = search_request(query=answer, namespace=0, reach='text')
                 for i in  list( set(articles_index).intersection( search ) ):
-                        if i not in search_results_in_articles_index:
-                                search_results_in_articles_index.append(i)
+                    if i not in search_results_in_articles_index:
+                            search_results_in_articles_index.append(i)
 
                 #print('search_results_in_articles_index:', search_results_in_articles_index )
                 #print('articles_index', len(articles_index), 'search:',len(search), 'intersection:', len(search_results_in_articles_index) )
 
                 if len(search_results_in_articles_index) > 10:
-                        break
+                    break
             if len(search_results_in_articles_index) > 15: # in case there is a selection of > 15 articles
                 shuffle(search_results_in_articles_index)
                 articles_index = search_results_in_articles_index[:14]
