@@ -21,12 +21,13 @@ if os.path.exists(img_dir) is False:
     os.mkdir(img_dir)
 img_dir_files = os.listdir(img_dir)
 
+
 for wiki_img in list(wiki_images):
     info = wiki_img.imageinfo
-    # pprint(info)
-    url = (info['url'].replace(" ","_")
-    size = int(info['size'])
-    print(url)
+    #pprint(info)
+    size = info['size']    
+    url = info['url'].replace(" ","_")
+    #print(url)
     if wiki_img.page_title not in img_dir_files:
         try:
             urllib.request.urlretrieve(info['url'], img_dir + wiki_img.page_title)
@@ -42,6 +43,4 @@ for wiki_img in list(wiki_images):
                 print('Image: {} in folder has DIFFERENT SIZE! Local {}, wiki {}. Downloading it'.format(wiki_img.page_title,local_img_size, size ))
             except:
                 print("Error downloading {}".format(url))
-
-
 

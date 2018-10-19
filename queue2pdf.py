@@ -40,7 +40,9 @@ def text_replacements(html):
 		soup = BeautifulSoup(html, "lxml")
 		imgs = soup.find_all("img")
 		for img in imgs:
-			img['src'] = 'images/'+(img['src'].split('/'))[-1]
+			src = ((img['src'].split('/'))[-1])
+			src = re.sub(r'^\d{1,3}px\-', '', src)
+			img['src'] = 'images/'+ src 
 		html = str(soup)	
 		html = remove_wiki_elements(html)
 		html = re.sub(r'<span class="mw-editsection-bracket">\[</span>.*?edit.*?<span class="mw-editsection-bracket">]', '', html)
