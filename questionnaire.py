@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from sys import stdin, stderr, stdout
-import requests
+#import requests
 import json
 from datetime import datetime
 from questions import questions
