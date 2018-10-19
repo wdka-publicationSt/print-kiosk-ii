@@ -21,22 +21,27 @@ if os.path.exists(img_dir) is False:
     os.mkdir(img_dir)
 img_dir_files = os.listdir(img_dir)
 
-for wiki_img in list(wiki_images)[:5]:
+for wiki_img in list(wiki_images):
     info = wiki_img.imageinfo
     # pprint(info)
     url = info['url']
-    sha1 = info['sha1']
     size = int(info['size'])
-
+    print(url)
     if wiki_img.page_title not in img_dir_files:
-        urllib.request.urlretrieve(info['url'], img_dir + wiki_img.page_title)
-        print('Image: {} not found. Downloading it!'.format(wiki_img.page_title))
+        try:
+            urllib.request.urlretrieve(info['url'], img_dir + wiki_img.page_title)
+            print('Image: {} not found. Downloading it!'.format(wiki_img.page_title))
+        except:
+            print("Error downloading {}".format(url))
     else:
         print('Image: {} in folder!'.format(wiki_img.page_title))
         local_img_size = os.path.getsize(img_dir + wiki_img.page_title)
         if local_img_size != size:
-            urllib.request.urlretrieve(info['url'], img_dir + wiki_img.page_title)
-            print('Image: {} in folder has DIFFERENT SIZE! Local {}, wiki {}. Downloading it'.format(wiki_img.page_title,local_img_size, size ))
+            try:
+                urllib.request.urlretrieve(info['url'], img_dir + wiki_img.page_title)
+                print('Image: {} in folder has DIFFERENT SIZE! Local {}, wiki {}. Downloading it'.format(wiki_img.page_title,local_img_size, size ))
+            except:
+                print("Error downloading {}".format(url))
 
 
 
