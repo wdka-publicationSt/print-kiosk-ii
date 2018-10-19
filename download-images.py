@@ -24,7 +24,7 @@ img_dir_files = os.listdir(img_dir)
 for wiki_img in list(wiki_images):
     info = wiki_img.imageinfo
     # pprint(info)
-    url = info['url']
+    url = (info['url'].replace(" ","_")
     size = int(info['size'])
     print(url)
     if wiki_img.page_title not in img_dir_files:

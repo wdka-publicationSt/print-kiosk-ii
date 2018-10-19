@@ -41,7 +41,7 @@ def text_replacements(html):
 		imgs = soup.find_all("img")
 		for img in imgs:
 			img['src'] = 'images/'+(img['src'].split('/'))[-1]
-			print(img)
+		html = str(soup)	
 		html = remove_wiki_elements(html)
 		html = re.sub(r'<span class="mw-editsection-bracket">\[</span>.*?edit.*?<span class="mw-editsection-bracket">]', '', html)
 		html = html.replace('/wiki/images/', '/var/www/html/wiki/images/') # to load images locally
@@ -156,7 +156,7 @@ def html2pdf(html_tmp_filename, metadata_filename, pdf_filename):
 	# fontsize=100 (doesn't work...)
 	# documentclass=twocolumn, article, report, book, memoir
 
-	cmd = '''pandoc -f html -t latex --pdf-engine pdflatex --template=latex.twocolumns.tex --title "PRINT KIOSK II" -N -V papersize=A4 -V geometry:margin=10mm -V version=2.0 -V thanks="Thank you!" -V toc-title=TOC! {} --metadata-file {} --toc -o {}'''.format(html_tmp_filename, metadata_filename, pdf_filename)
+	cmd = '''pandoc -f html -t latex --pdf-engine xelatex --template=latex.twocolumns.tex --title "PRINT KIOSK II" -N -V papersize=A4 -V geometry:margin=10mm -V version=2.0 -V thanks="Thank you!" -V toc-title=TOC! {} --metadata-file {} --toc -o {}'''.format(html_tmp_filename, metadata_filename, pdf_filename)
 	os.system(cmd)
 	print('*done! {} written*'.format(pdf_filename))
 

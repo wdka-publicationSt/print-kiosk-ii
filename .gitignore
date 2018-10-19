@@ -1,2 +1,5 @@
 output/
 output/*
+images/
+images/*
+latex.metadata.yaml
