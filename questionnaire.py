@@ -8,6 +8,9 @@ from colors import colors
 from pprint import pprint
 from search_wiki import search_request
 from random import shuffle
+
+from irc import irc
+
 #print(questions)
 
 # * * * * * * * * * * * * * * * * * * * * * * *
@@ -19,8 +22,6 @@ from random import shuffle
 # The list of pages is shrinking depending on  the answers given to each question
 # That is done in the main loop which cycles thought the *questions* dict
 # and if conditions trigger the different processes for each question
-
-# TODO: add to questions['03-free-association']['user_answers'] # perhaps as tuple
 
 def load_mw_data(): # Load pages index
     f = open('all_pages.json','r').read()
@@ -45,7 +46,7 @@ print(colors.HEADER,
 
 def questionnaire():
     articles_index = [] # list of matching articles; after articles are added in 'time' questions, they are filtered out inf following questions to produce the final list of articles
-    
+
     for key in sorted(questions):
         q = questions[key]['question']
         options = questions[key]['variables']
@@ -106,7 +107,7 @@ def questionnaire():
             # print ('serch_results', search_results)
 
 
-        if 'free-association' in key:
+        elif 'free-association' in key:
             # free-association: should result in at least 10 articles
             # uses the shuffled questions['03-free-association']['options']
             # which are looped through
@@ -145,7 +146,13 @@ def questionnaire():
                 articles_index = search_results_in_articles_index
             print(colors.BLUE, '\n> > > In the print queue, {} pages were found to contain the words {}\n'.format(len(articles_index),(", ").join(user_terms) ) )
             print( colors.HEADER, '\n> > > The following articles will be printed:\n', colors.GREEN, (("\n").join(articles_index ) ), colors.ENDC )
+
+        elif 'irc' in key:        
+            irc( 'bsuser' )
+        # how the IRC add to the article index ???
+
     return articles_index
 
 # QUESTIONNAIRE IS RUN BY run-questionnaire.py or print-sequence.py
-# articles_index = questionnaire()
+#articles_index = questionnaire()
+ # for some unknow reason nickname has to be hard coded

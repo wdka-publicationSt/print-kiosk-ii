@@ -20,5 +20,13 @@ questions = {
         'reply' : '{pagenumber} pages were found with to have the terms {terms} in them',
         'error': '{terms} have been in the minds of the Beyond Social editors, let\'s try others',
         'user_answers': None
+    },
+    '04-irc' : {
+    'question' : "",
+        'variables' : [], 
+        # more words could be here, from which only 3 will be randomly selected, and more if needed in order to  exampand the print quue
+        'reply' : '',
+        'error': '',
+        'user_answers': None
     }
 }
