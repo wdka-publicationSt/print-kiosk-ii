@@ -5,24 +5,31 @@ from ircutils3 import format as msgformat
 from sys import stdin, stderr, stdout
 from time import sleep
 from getpass import getpass
+import re
+from shadow_library import grep_shadow_pdfs
 
 class bs_irc_user(bot.SimpleBot):
 
 	def on_channel_message(self, event):
-		user =  ((event.prefix).split("!"))[0]
+		user = ((event.prefix).split("!"))[0]
 		print(user+":", event.message)
 		print("Answer:",)
+		if "#shadowlibrary" in event.message.lower():
+			selection = re.findall(r'\d\d\d', event.message)
+			print('selection_id', selection)
+			grep_shadow_pdfs(selection) # execute script that collects the PDFs, and unites them into one a tmp file: shadow_library.pdf
+			# The #shadowlibrary code can only be used once, as it will overwrite the tmp pdf file, each time that it is triggered.
+
 		if "bye" in event.message.lower() or "goodbye" in event.message.lower():
 			print("LEAVE channel")
 			self.part_channel('#beyondsocial', "Bye. See you soon")
 			self.disconnect(self)
 			return # exit the function
-		say = getpass(prompt="") # hack: to get only what use types at this moment
+		say = getpass(prompt="") # hack: to get only what user types at this moment
 		# will not echo what s/he is printing atm
 		print (say)
-		self.send_message(event.target, say )
+		self.send_message(event.target, say)
 		
-
 	def on_join(self, event):
 		if event.source == self.nickname:
 			message = msgformat.bold("/me is here")
@@ -40,4 +47,4 @@ def irc(username):
 		# Start running the bot
 	bs_user.start()
 
-#irc("bs_user")
+irc("bs_user")
