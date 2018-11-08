@@ -9,7 +9,7 @@ from pprint import pprint
 from search_wiki import search_request
 from random import shuffle
 
-from irc import irc
+
 
 #print(questions)
 
@@ -63,10 +63,10 @@ def questionnaire():
                       file=stderr)
                 answer = stdin.readline().lower()
                 if 'yes' in answer:
-                    print(colors.WARNING, '\n', 'Really? Me too!','\n', colors.ENDC, file=stderr)
+                    print(colors.WARNING, '\n', 'Carpe diem!','\n', colors.ENDC, file=stderr)
                     break
                 elif 'no' in answer:
-                    print(colors.WARNING, '\n' 'Oh yes me neither.','\n', colors.ENDC, file=stderr)
+                    print(colors.WARNING, '\n' 'Me neither.','\n', colors.ENDC, file=stderr)
                     break
                 print(colors.FAIL, 'Hmm ..not quite sure about', colors.WARNING, answer, colors.FAIL,
                       '\n', 'Can you please answer yes or no?','\n',
@@ -82,9 +82,11 @@ def questionnaire():
             print(colors.BLUE,'\n> > > {} pages are added to your print queue ...\n'.format(len(articles_index)), colors.ENDC)
 
         elif 'common-words' in key:
+            n = -1
             # the user is asked for a word *answer* that should be in BS curriculum
             # the *answer* is searched for with the API            
             while True:
+                n=n+1
                 # the while loop keeps asking for *answer* until a *search_results* has > N results in current_mach,
                 # in which case the loop breaks
                 # otherwise it continues asking the user for terms, searching, and comparing to articles_index
@@ -97,10 +99,13 @@ def questionnaire():
                 answer = stdin.readline().lower()                
                 search_results = search_request(query=answer, namespace='0', reach='text')
                 if  len(list( set(articles_index).intersection( search_results ) )) > 20: # if search_results in articles_index are > N                       
-                    print ( colors.BLUE, reply.format(pagenumber=len(search_results), term=answer), colors.ENDC ) 
-                    break  # and break the while loop
+                    print ( colors.BLUE, reply, colors.ENDC ) 
+                    break  # and break the while loop # MOVE TO F5
                 else:   # continue loop
-                    print (colors.FAIL, error.format(answer), colors.ENDC)
+                    print (colors.FAIL, error[n], "\n", colors.ENDC)
+                    if n == 2:
+                        break # break while loop after 3rd attempt # MOVE TO F3 (to do)
+                    
 
             articles_index = list( set(articles_index).intersection(search_results)) 
             print(colors.BLUE, '\n> > > In the print queue, {} pages were found to contain the word {}\n'.format(len(articles_index), answer ),colors.ENDC )                
@@ -139,15 +144,19 @@ def questionnaire():
 
                 if len(search_results_in_articles_index) > 10:
                     break
-            if len(search_results_in_articles_index) > 15: # in case there is a selection of > 15 articles
+            if len(search_results_in_articles_index) > 3: # in case there is a selection of > 15 articles
                 shuffle(search_results_in_articles_index)
-                articles_index = search_results_in_articles_index[:14]
+                articles_index = search_results_in_articles_index[:3]
             else:
                 articles_index = search_results_in_articles_index
+
+            print(colors.BLUE, "Ok, so based on the information you have provided, I think I have a nice selection of Beyond Social articles for you to read. These have been written by students, teachers, and friends of WdKA Social Practices. While I print this out for you, one of my chatbots will serve you a parting gift from our shadow library. It contains research material that our teachers are currently reading or writing.", "\n")
+                
             print(colors.BLUE, '\n> > > In the print queue, {} pages were found to contain the words {}\n'.format(len(articles_index),(", ").join(user_terms) ) )
             print( colors.HEADER, '\n> > > The following articles will be printed:\n', colors.GREEN, (("\n").join(articles_index ) ), colors.ENDC )
 
-        elif 'irc' in key:        
+        elif 'irc' in key:
+            from irc import irc # import needs to be here in order to only establish a connection at this point
             irc( 'bsuser' )
         # how the IRC add to the article index ???
 

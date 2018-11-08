@@ -7,20 +7,22 @@ questions = {
         'user_answers': None
     },
     '02-common-words' : {
-        'question' : 'Now, a  question. Which words would you expect a Social Practice curriculum or project to have in mind?',
+        'question' : 'Which five words would you expect a Social Practice curriculum or project to have in mind?',
         'variables' : [],
-        'reply': '{pagenumber} pages were found with to have {term} in mind',
-        'error': '{} does not seem to be a word that Social Practice at Willem de Kooning Academy is throwing around, we will add it to our wishlist.  Please try another.',
+        'reply': 'Looks like I have some articles that match your biorythym and your concept of a socially engaged cultural practice.',
+        'error': ["Oh dear. We don't seem to have anything that matches those keywords. We will place your suggested concepts on a pedagogical wishlist and see whether we can incorporate them into our curriculum. Let's try again.", "Hmmm. Still no match. Let's try again. Your suggestions, by the way, have been added to a pedagogical wishlist.", "OK, wow. Your pedagogical style is quite radical. While we wait for our faculty to catch up with your futuristic approach to social practice, let's move on to the next content service filter."],
         'user_answers': None
     },
+    
     '03-free-association' : {
-        'question' : "Please write the first word that comes to your mind. Don't overthink it.",
-        'variables' : ['activism', 'commons', 'representation', 'engagement', 'empowerment', 'participation', 'ownership', 'sustainability', 'identity', 'pedagogy', 'technology', 'whiteness'], 
+        'question' : "Please write the first word that comes to your mind.",
+        'variables' : ['empowerment', 'representation', 'activism', 'commons', 'engagement', 'whiteness', 'ownership', 'sustainability', 'identity', 'pedagogy', 'technology', 'participation'], 
         # more words could be here, from which only 3 will be randomly selected, and more if needed in order to  exampand the print quue
         'reply' : '{pagenumber} pages were found with to have the terms {terms} in them',
         'error': '{terms} have been in the minds of the Beyond Social editors, let\'s try others',
         'user_answers': None
     },
+    
     '04-irc' : {
     'question' : "",
         'variables' : [], 
