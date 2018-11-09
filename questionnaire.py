@@ -155,10 +155,10 @@ def questionnaire():
             print(colors.BLUE, '\n> > > In the print queue, {} pages were found to contain the words {}\n'.format(len(articles_index),(", ").join(user_terms) ) )
             print( colors.HEADER, '\n> > > The following articles will be printed:\n', colors.GREEN, (("\n").join(articles_index ) ), colors.ENDC )
 
-        elif 'irc' in key:
-            from irc import irc # import needs to be here in order to only establish a connection at this point
-            irc( 'bsuser' )
-        # how the IRC add to the article index ???
+        # elif 'irc' in key:
+        #     from irc import irc # import needs to be here in order to only establish a connection at this point
+        #     irc( 'bsuser' )
+        # # how the IRC add to the article index ???
 
     return articles_index
 

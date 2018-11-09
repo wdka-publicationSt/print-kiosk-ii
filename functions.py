@@ -6,7 +6,7 @@ from nltk.tokenize import RegexpTokenizer
 tokenizer = RegexpTokenizer(r'\w+') # initialize tokenizer
 
 def remove_wiki_elements(html):
-	soup = BeautifulSoup(html, "lxml")
+	soup = BeautifulSoup(html, "html5lib")
 
 	# remove the contribute banner + recent articles suggestions banner
 	contribute = soup.find(id='contribute-wrapper')
@@ -20,7 +20,7 @@ def remove_wiki_elements(html):
 	return html
 
 def parse_html(html):
-	soup = BeautifulSoup(html, "lxml")
+	soup = BeautifulSoup(html, "html5lib")
 
 	# remove the contribute banner + recent articles suggestions banner
 	contribute = soup.find(id='contribute-wrapper')

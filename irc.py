@@ -35,7 +35,7 @@ class bs_irc_user(bot.SimpleBot):
 			message = msgformat.bold("/me is here")
 			message = msgformat.color(message, msgformat.RED)
 			self.send_message(event.target, message)
-			print("You are now chatting to ELAINE")
+			print("You are now chatting to ELAINE. Wait for her to start chating with you")
 
 	# Create an instance of the bot
 	# We set the bot's nickname here
