@@ -38,7 +38,7 @@ def load_print_queue(data):
 
 # --- Pre-process the content html
 def text_replacements(html):
-		soup = BeautifulSoup(html, "lxml")
+		soup = BeautifulSoup(html, "html5lib")
 		imgs = soup.find_all("img")
 		for img in imgs:
 			src = ((img['src'].split('/'))[-1])
