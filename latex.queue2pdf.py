@@ -2,8 +2,10 @@
 import json
 import re
 from pprint import pprint
-from functions import remove_wiki_elements
+from functions import remove_wiki_elements 
 import pypandoc
+
+
 
 # * * * * * * * * * * * * * * * * * *
 # queue.json > queue.tmp.html
@@ -103,6 +105,7 @@ abstract: PROMISCUOUS PRINT SERVICE? CHATTY PRINT SERVICE? Continuing the idea o
 	out.close()
 	print('*{} written*'.format(metadata_filename))
 
+        
 # --- write queue to html
 def queue2html(queue, html_filename):
 	queue_html = ''
@@ -147,7 +150,7 @@ def html2pdf(html_tmp_filename, metadata_filename, pdf_filename):
 	# fontsize=100 (doesn't work...)
 	# documentclass=twocolumn, article, report, book, memoir
 
-	cmd = '''pandoc -f html -t latex --pdf-engine pdflatex --template=twocolumns.tex --title "PRINT KIOSK II" -N -V papersize=A4 -V geometry:margin=10mm -V version=2.0 -V thanks="Thank you!" -V toc-title=TOC! {} --metadata-file {} --toc -o {}'''.format(html_tmp_filename, metadata_filename, pdf_filename)
+	cmd = '''pandoc -f html -t latex --latex-engine pdflatex --template=twocolumns.tex --title "PRINT KIOSK II" -N -V papersize=A4 -V geometry:margin=10mm -V version=2.0 -V thanks="Thank you!" -V toc-title=TOC! {} --toc -o {}'''.format(html_tmp_filename,  pdf_filename)
 	os.system(cmd)
 	print('*done! {} written*'.format(pdf_filename))
 

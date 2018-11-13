@@ -2,7 +2,7 @@
 import json
 import os, re
 from pprint import pprint
-from functions import remove_wiki_elements
+from functions import remove_wiki_elements, get_yaml_data
 import pypandoc
 from bs4 import BeautifulSoup
 import datetime
@@ -173,9 +173,24 @@ def html2pdf(html_tmp_filename, metadata_filename, pdf_filename):
 	# fontsize=100 (doesn't work...)
 	# documentclass=twocolumn, article, report, book, memoir
 
-	cmd = '''pandoc -f html -t latex --pdf-engine xelatex --template=latex.twocolumns.tex --title "PRINT KIOSK II" -N -V papersize=A4 -V version=2.0 -V thanks="Thank you!" -V toc-title=TOC! {} --metadata-file {} --toc -o {}'''.format(html_tmp_filename, metadata_filename, pdf_filename)
-	os.system(cmd)
-	print('*done! {} written*'.format(pdf_filename))
+         # parse metadata
+         # version of pandoc used in pi cannot read yaml
+         # so individual metadata key:value are given
+         
+        metadata = get_yaml_data("latex.metadata.yaml")
+        metadata_authors_option = ['--metadata=author:"{}"'.format(authorname) for authorname in metadata['authors'] ]
+        metadata_authors_option = (" ").join(metadata_authors_option)
+        print(metadata_authors_option)
+        #print (metadata)
+        cmd = '''pandoc -f html -t latex --latex-engine xelatex --template=latex.twocolumns.tex --title "PRINT KIOSK II" --metadata=title:"{title}" --metadata=abstract:"{abstract}" {authors} -N -V papersize=A4 -V version=2.0 -V thanks="Thank you!" -V toc-title=TOC! {inputfile} --toc -o {outputfile}'''.format(
+                title = metadata['title'],
+                abstract = metadata['abstract'],
+                authors = metadata_authors_option,
+                inputfile=html_tmp_filename,
+                outputfile=pdf_filename)
+        print(cmd)
+        os.system(cmd)
+        print('*done! {} written*'.format(pdf_filename))
 
 # --- main function, generate the pdf
 def queue2pdf(data_json_file, queue_json_file, html_tmp_filename, metadata_filename, pdf_filename):
@@ -194,3 +209,4 @@ def queue2pdf(data_json_file, queue_json_file, html_tmp_filename, metadata_filen
 	html2pdf(html_tmp_filename, metadata_filename, pdf_filename)
 
 # queue2pdf('all_pages.json', 'queue.tmp.json', 'queue.tmp.html', 'metadata.yaml', 'queue.pdf')
+
