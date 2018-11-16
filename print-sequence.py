@@ -44,4 +44,4 @@ queue2pdf('all_pages.json', 'queue.tmp.json', 'queue.tmp.html', 'latex.metadata.
 # Perhaps we better do this manually?
 
 # 6 - print
-
+os.system("lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4  {pdf}".format( pdf=pdf_filename ) )

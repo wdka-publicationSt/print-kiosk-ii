@@ -180,15 +180,15 @@ def html2pdf(html_tmp_filename, metadata_filename, pdf_filename):
         metadata = get_yaml_data("latex.metadata.yaml")
         metadata_authors_option = ['--metadata=author:"{}"'.format(authorname) for authorname in metadata['authors'] ]
         metadata_authors_option = (" ").join(metadata_authors_option)
-        print(metadata_authors_option)
+        #print(metadata_authors_option)
         #print (metadata)
-        cmd = '''pandoc -f html -t latex --latex-engine xelatex --template=latex.twocolumns.tex --title "PRINT KIOSK II" --metadata=title:"{title}" --metadata=abstract:"{abstract}" {authors} -N -V papersize=A4 -V version=2.0 -V thanks="Thank you!" -V toc-title=TOC! {inputfile} --toc -o {outputfile}'''.format(
+        cmd = '''pandoc -f html -t latex --latex-engine xelatex --template=latex.twocolumns.tex --title "PRINT KIOSK II" --metadata=title:"{title}" --metadata=abstract:"{abstract}" {authors} -N -V papersize=a4 -V version=2.0 -V thanks="Thank you!" -V toc-title="Table of Contents" {inputfile} --toc -o {outputfile}'''.format(
                 title = metadata['title'],
                 abstract = metadata['abstract'],
                 authors = metadata_authors_option,
                 inputfile=html_tmp_filename,
                 outputfile=pdf_filename)
-        print(cmd)
+        #print(cmd)
         os.system(cmd)
         print('*done! {} written*'.format(pdf_filename))
 
