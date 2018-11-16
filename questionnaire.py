@@ -8,7 +8,7 @@ from colors import colors
 from pprint import pprint
 from search_wiki import search_request
 from random import shuffle
-
+from receiptprintercmds import escpos,stdout, stderr
 
 
 #print(questions)
@@ -39,10 +39,8 @@ def check_first_edit(first_edit_hour):
 
 data = load_mw_data()
 
-print(colors.HEADER,
-      'Please answer these questions with your general first impression response. Don\'t overthink it.',
-      colors.ENDC,
-      '\n')
+print('Please answer these questions with your general first impression response. Don\'t overthink it.',
+      '\n\n\n', file=stdout)
 
 def questionnaire():
     articles_index = [] # list of matching articles; after articles are added in 'time' questions, they are filtered out inf following questions to produce the final list of articles
@@ -55,22 +53,22 @@ def questionnaire():
 
         if 'time' in key:
             while True:
-                print(colors.GREEN,
-                      q,
-                      colors.BLUE,                      
+                print(q,
+                      '\n\n\n',
                       options,
-                      colors.ENDC,
-                      file=stderr)
+                      '\n\n\n\n\n\n\n\n\n\n',
+                      file=stdout)
                 answer = stdin.readline().lower()
+                print(escpos['justify_center'],answer,'\n\n\n\n', file=stdout)
+                print(escpos['justify_left'], file=stdout)
                 if 'yes' in answer:
-                    print(colors.WARNING, '\n', 'Carpe diem!','\n', colors.ENDC, file=stderr)
+                    print( 'Carpe diem!', '\n\n\n\n\n', file=stdout)
                     break
                 elif 'no' in answer:
-                    print(colors.WARNING, '\n' 'Me neither.','\n', colors.ENDC, file=stderr)
+                    print('Me neither.', '\n\n\n\n\n', file=stdout)
                     break
-                print(colors.FAIL, 'Hmm ..not quite sure about', colors.WARNING, answer, colors.FAIL,
-                      '\n', 'Can you please answer yes or no?','\n',
-                      colors.ENDC)
+                print('Hmm ..not quite sure about', answer, 
+                      '\n\n', 'Can you please answer yes or no?','\n\n\n\n\n', file=stdout)
 
             # populate the articles_index by comparing the answer with the officehours
             for page, page_data in data.items(): 
@@ -78,8 +76,8 @@ def questionnaire():
                     check = check_first_edit(first_edit_hour) # first_edit_hour matches the officehours? yes or no
                     if check in answer: # yes(officehours) in yes(answer) or no(officehours) in no(answer)
                             articles_index.append(page)
-            # print('\nThese pages are something for you:\n\n', articles_index)
-            print(colors.BLUE,'\n> > > {} pages are added to your print queue ...\n'.format(len(articles_index)), colors.ENDC)
+            # print('\n\n\nThese pages are something for you:\n\n\n\n\n\n\n', articles_index)
+            #print(colors.BLUE,'\n\n\n> > > {} pages are added to your print queue ...\n\n\n'.format(len(articles_index)), colors.ENDC)
 
         elif 'common-words' in key:
             n = -1
@@ -90,25 +88,24 @@ def questionnaire():
                 # the while loop keeps asking for *answer* until a *search_results* has > N results in current_mach,
                 # in which case the loop breaks
                 # otherwise it continues asking the user for terms, searching, and comparing to articles_index
-                print(colors.GREEN,
-                      q,
-                      colors.BLUE,                      
-                      options,
-                      colors.ENDC,
-                      file=stderr)
-                answer = stdin.readline().lower()                
+                print(q,
+                       '\n\n\n\n\n\n\n\n\n\n',
+                      file=stdout)
+                answer = stdin.readline().lower()
+                print(escpos['justify_center'],answer,'\n\n\n\n', file=stdout)
+                print(escpos['justify_left'], file=stdout)                
                 search_results = search_request(query=answer, namespace='0', reach='text')
                 if  len(list( set(articles_index).intersection( search_results ) )) > 20: # if search_results in articles_index are > N                       
-                    print ( colors.BLUE, reply, colors.ENDC ) 
+                    print ( reply, "\n\n\n", file=stdout ) 
                     break  # and break the while loop # MOVE TO F5
                 else:   # continue loop
-                    print (colors.FAIL, error[n], "\n", colors.ENDC)
+                    print ( error[n], "\n\n\n", file=stdout)
                     if n == 2:
                         break # break while loop after 3rd attempt # MOVE TO F3 (to do)
                     
 
             articles_index = list( set(articles_index).intersection(search_results)) 
-            print(colors.BLUE, '\n> > > In the print queue, {} pages were found to contain the word {}\n'.format(len(articles_index), answer ),colors.ENDC )                
+#            print(colors.BLUE, '\n\n\n> > > In the print queue, {} pages were found to contain the word {}\n\n\n'.format(len(articles_index), answer ),colors.ENDC )                
             # print ('serch_results', search_results)
 
 
@@ -124,15 +121,17 @@ def questionnaire():
 
             user_terms = [] 
             search_results_in_articles_index = []
-            print(colors.GREEN,
-                  q,
-                  file=stderr)
+            print(q,
+                  "\n\n\n\n\n",
+                  file=stdout)
             shuffle(options)
             #print( options )
             for option in options:
                 subquestion = 'When I say {}, you say: ___________'.format(option)
-                print(colors.HEADER, subquestion, colors.ENDC, file=stderr)
+                print(subquestion, '\n\n\n\n\n\n\n\n\n', file=stdout)
                 answer = stdin.readline()
+                print(escpos['justify_center'],answer,'\n\n\n\n', file=stdout)
+                print(escpos['justify_left'], file=stdout)
                 user_terms.append(answer.replace('\n', '')) # TODO add to questions dict                
                 search = search_request(query=answer, namespace=0, reach='text')
                 for i in  list( set(articles_index).intersection( search ) ):
@@ -150,18 +149,24 @@ def questionnaire():
             else:
                 articles_index = search_results_in_articles_index
 
-            print(colors.BLUE, "Ok, so based on the information you have provided, I think I have a nice selection of Beyond Social articles for you to read. These have been written by students, teachers, and friends of WdKA Social Practices. While I print this out for you, one of my chatbots will serve you a parting gift from our shadow library. It contains research material that our teachers are currently reading or writing.", "\n")
+            print("Ok, so based on the information you have provided, I think I have a nice selection of Beyond Social articles for you to read. These have been written by students, teachers, and friends of WdKA Social Practices. While I print this out for you, one of my chatbots will serve you a parting gift from our shadow library. It contains research material that our teachers are currently reading or writing.", "\n\n\n\n\n",file=stdout)
                 
-            print(colors.BLUE, '\n> > > In the print queue, {} pages were found to contain the words {}\n'.format(len(articles_index),(", ").join(user_terms) ) )
-            print( colors.HEADER, '\n> > > The following articles will be printed:\n', colors.GREEN, (("\n").join(articles_index ) ), colors.ENDC )
+ #           print('\n\n\n> > > In the print queue, {} pages were found to contain the words {}\n\n\n'.format(len(articles_index),(", ").join(user_terms) ),file=stdout )
+#            print( '\n\n\n> > > The following articles will be printed:\n\n\n', colors.GREEN, (("\n\n\n").join(articles_index ) ), colors.ENDC )
 
         # elif 'irc' in key:
         #     from irc import irc # import needs to be here in order to only establish a connection at this point
         #     irc( 'bsuser' )
         # # how the IRC add to the article index ???
 
+        
+        
+
+        
     return articles_index
 
 # QUESTIONNAIRE IS RUN BY run-questionnaire.py or print-sequence.py
 #articles_index = questionnaire()
  # for some unknow reason nickname has to be hard coded
+ 
+#print(escpos['papercut'], file=stdout) # move to print-sequence

@@ -7,7 +7,7 @@ questions = {
         'user_answers': None
     },
     '02-common-words' : {
-        'question' : 'Which five words would you expect a Social Practice curriculum or project to have in mind?',
+        'question' : 'Which words would you expect a Social Practice curriculum or project to have in mind?\n\n Write one at a time and press Enter.',
         'variables' : [],
         'reply': 'Looks like I have some articles that match your biorythym and your concept of a socially engaged cultural practice.',
         'error': ["Oh dear. We don't seem to have anything that matches those keywords. We will place your suggested concepts on a pedagogical wishlist and see whether we can incorporate them into our curriculum. Let's try again.", "Hmmm. Still no match. Let's try again. Your suggestions, by the way, have been added to a pedagogical wishlist.", "OK, wow. Your pedagogical style is quite radical. While we wait for our faculty to catch up with your futuristic approach to social practice, let's move on to the next content service filter."],

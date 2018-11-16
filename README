@@ -18,7 +18,6 @@ A text based conversational interface to the Beyond Social wiki - 2 - print.
   * mwclient
   * html5lib
   
-  
 * run scripts that fetch content:
   * download-all-pages.py
   * download-images.py
