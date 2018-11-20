@@ -55,27 +55,23 @@ from irc import irc
 irc("bs_user") #start the IRC chat, the script listens to the #shadowlibrary key to collect PDF(s) from the BS Shadow Library. The PDF's can be inserted by using the id numbers from the shadow_library.csv file.
 
 # 5 - unite shadow_library.pdf + annex.pdf && print this pdf
-annex_pdf = 'annex.pdf'
-shadow_library_pdf = 'shadow_library.pdf'
-printstack_pdf = 'output/print-stack.{}.pdf'.format(timestamp)
-if os.path.isdir('output') is False:
-    os.mkdir('output')
-# cmd = 'pdfunite {} {} {}'.format(shadow_library_pdf, annex_pdf, printstack_pdf) # shadow_library.pdf + annex.pdf
-cmd = 'pdftk {} {} output {}'.format(shadow_library_pdf, annex_pdf, printstack_pdf) # shadow_library.pdf + annex.pdf
-print(cmd)
-os.system(cmd)
-cmd = 'gs -o {} -sDEVICE=pdfwrite -sPAPERSIZE=a4 -dFIXEDMEDIA -dPDFFitPage -dCompatibilityLevel=1.4 {}'.format(printstack_pdf, printstack_pdf) # to resize to A4
-print(cmd)
-os.system(cmd)
-print('*shadow_library.pdf + annex.pdf united*')
-
 print('Your PDF will be printed soon. Thank you!', '\n\n\n', file=stdout) # move to print-sequence 
-sleep(1)
-print('ps. .... I added an ANNEX as well, to leak some information from the making process. Hope you will enjoy it!', '\n\n\n\n\n\n', file=stdout)
-cmd = "lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=printstack_pdf)
+
+shadow_library_pdf = 'shadow_library.pdf'
+cmd = "lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=shadow_library_pdf)
 print(cmd)
 os.system(cmd)
-print('Second PDF (shadow_library + annex) is printing ...')
+print('Second PDF (shadow_library) is printing ...')
+
+sleep(3)
+
+print('ps. .... I added an ANNEX as well, to leak some information from the making process. Hope you will enjoy it!', '\n\n\n\n\n\n', file=stdout)
+
+annex_pdf = 'annex.pdf'
+cmd = "lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=annex_pdf)
+print(cmd)
+os.system(cmd)
+print('Third PDF (annex) is printing ... (Last one!)')
 #if args.noreceipt is False:
 
 # #receipt printer
@@ -84,4 +80,5 @@ print('Second PDF (shadow_library + annex) is printing ...')
 # printer.text("\n\n")
 # #    printer.text(articles_index)
 # printer.cut()
+sleep(3)
 print(escpos['papercut'], file=stdout) # move to print-sequence 
