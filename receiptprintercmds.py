@@ -1,5 +1,12 @@
-stdout = open('/dev/ttyUSB0','w')
-stderr = open('/dev/ttyUSB0','w')
+#!/usr/bin/env python3
+import sys
+try:
+    stdout = open('/dev/ttyUSB0','w')
+    stderr = open('/dev/ttyUSB0','w')
+except:
+    stdout = sys.__stdout__
+    stderr = sys.__stderr__ 
+    print('no receipt printer connected')
 
 escpos = {
     "init_printer":  "\x1B\x40",
