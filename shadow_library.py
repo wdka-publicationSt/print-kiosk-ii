@@ -8,9 +8,10 @@ path = '../BS-Shadow-Library/'
 
 # --- create BS Shadow Library index
 def create_shadow_index():
+	print('\n*Creating shadow_library.csv ...*')
 	shadow_library = os.listdir(path)
 
-	print(shadow_library)
+	# print(shadow_library)
 
 	csvfile = open('shadow_library.csv', 'w+')
 
@@ -20,7 +21,7 @@ def create_shadow_index():
 		csvwriter.writerow([pdf_id] + [pdf])
 
 	csvfile.close()
-	print('*shadow_library.csv is created*')
+	print('*shadow_library.csv is created*\n')
 
 # create_shadow_index()
 
@@ -30,13 +31,13 @@ def grep_shadow_pdfs(selection_ids):
 	outfile = 'shadow_library.pdf'
 
 	# check if the shadow_library.csv file needs to be created
-	if os.path.isfile(outfile) == False: 
+	if os.path.isfile('shadow_library.csv') == False: 
 		create_shadow_index()
 
 	index = open('shadow_library.csv', 'r').readlines()
 	index = [item.replace('\n', '') for item in index]
 	index = [item.split('\t') for item in index]
-	print(index)
+	# print(index)
 	pdfs = []
 	for selection_id in selection_ids:
 		for item in index:
@@ -51,14 +52,15 @@ def grep_shadow_pdfs(selection_ids):
 		cmd = 'cp {} {}'.format(pdfs[0], outfile)
 		print(cmd)
 		os.system(cmd)
-		print('*{}* is ready!'.format(outfile))
+		print('\n*{}* is ready!\n'.format(outfile))
 	# if there are more, they will be [pdf]united into 1 pdf
 	else: 
-		cmd = 'pdfunite {} {}'.format(' '.join(pdfs), outfile)
-		print(cmd)
-		os.system(cmd)
-		print('*{}* is [pdf]united!'.format(outfile))
+		print('\n*Currently it\'s only possible to feed one PDF from the Shadow Library.*\n')
+		# cmd = 'pdfunite {} {}'.format(' '.join(pdfs), outfile)
+		# print(cmd)
+		# os.system(cmd)
+		# print('\n*{}* is [pdf]united!\n'.format(outfile))
 
-# selection_ids = ['001']
+# selection_ids = ['009']
 # selection_ids = ['001', '002', '003']
 # grep_shadow_pdfs(selection_ids)
