@@ -8,8 +8,7 @@ from colors import colors
 from pprint import pprint
 from search_wiki import search_request
 from random import shuffle
-# from receiptprintercmds import escpos, stdout, stderr
-from receiptprintercmds import escpos
+from receiptprintercmds import escpos, stdout, stderr
 
 #print(questions)
 
