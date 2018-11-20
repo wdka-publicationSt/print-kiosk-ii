@@ -37,14 +37,15 @@ w.close()
 print('print_queue contains:', len(print_queue), 'articles')
 
 # 3 - produce the PDF
-
 timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 if os.path.isdir('tmp') is False:
     os.mkdir('tmp')
 pdf_filename = 'tmp/queue.{}.pdf'.format(timestamp)
 print('Please be patient. I am working on prodcuing your print out','\n\n' , file=stdout) # move to print-sequence 
-
 queue2pdf('all_pages.json', 'queue.tmp.json', 'queue.tmp.html', 'latex.metadata.yaml', pdf_filename)
+# cmd = 'pdftk {} multibackground {} output {}'.format(pdf_filename, 'abstract.pdf', pdf_filename) # a little trick to add a custom abstract (instead of an abstract through LaTeX)
+
+# --- end print it
 cmd = "lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=pdf_filename)
 print(cmd)
 os.system(cmd)
@@ -54,7 +55,7 @@ print('First PDF (questionnaire selection) is printing ...')
 from irc import irc
 irc("bs_user") #start the IRC chat, the script listens to the #shadowlibrary key to collect PDF(s) from the BS Shadow Library. The PDF's can be inserted by using the id numbers from the shadow_library.csv file.
 
-# 5 - unite shadow_library.pdf + annex.pdf && print this pdf
+# 5 - print shadow_library.pdf + annex.pdf
 print('Your PDF will be printed soon. Thank you!', '\n\n\n', file=stdout) # move to print-sequence 
 
 shadow_library_pdf = 'shadow_library.pdf'
