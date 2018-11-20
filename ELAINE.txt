@@ -7,6 +7,15 @@
 | __| | |     (_)_\(_) |_ _|  | \| | | __|
 | _|  | |__    / _ \    | |   | .` | | _| 
 |___| |____|  /_/ \_\  |___|  |_|\_| |___|                                           
-                                                                              
+                                          
+
+   ___  _       ____  ____  ____     ___ 
+  /  _]| |     /    ||    ||    \   /  _]
+ /  [_ | |    |  o  | |  | |  _  | /  [_ 
+|    _]| |___ |     | |  | |  |  ||    _]
+|   [_ |     ||  _  | |  | |  |  ||   [_ 
+|     ||     ||  |  | |  | |  |  ||     |
+|_____||_____||__|__||____||__|__||_____|
+                                                                          
 
 Hi, I'm ELAINE (Electronic Library Artificial Intelligence Networked Entity), a cyborg librarian and budding xenofeminist who does not believe doing emotional labor invalidates her intellectual capabilities.
