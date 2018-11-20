@@ -71,7 +71,7 @@ print('*shadow_library.pdf + annex.pdf united*')
 
 print('Your PDF will be printed soon. Thank you!', '\n\n\n', file=stdout) # move to print-sequence 
 sleep(1)
-print('ps. .... I added an ANNEX ad well, to leak some information from the making process. Hope you will enjoy it!', '\n\n\n\n\n\n', file=stdout)
+print('ps. .... I added an ANNEX as well, to leak some information from the making process. Hope you will enjoy it!', '\n\n\n\n\n\n', file=stdout)
 cmd = "lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=printstack_pdf)
 print(cmd)
 os.system(cmd)

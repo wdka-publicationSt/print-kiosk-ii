@@ -14,11 +14,11 @@ class bs_irc_user(bot.SimpleBot):
 	def on_channel_message(self, event):
 		user = ((event.prefix).split("!"))[0]
 		print(user+":", event.message, '\n\n\n\n\n\n\n', file=stdout)
-		print("Answer:",  '\n\n\n\n\n\n\n', file=stdout)
+		print("Answer:",  '\n\n\n\n\n\n\n', event.message, file=stdout)
 		if "#shadowlibrary" in event.message.lower():
 			selection = re.findall(r'\d\d\d', event.message)
 			filename = get_pdf_filename(selection) # get name of pdf
-			print('I selected this PDF(s) for you:', filename, '\n\n\n\n\n\n\n', file=stdout)
+			print('I selected this PDF for you:', filename, '\n\n\n\n\n\n\n', file=stdout)
 			grep_shadow_pdfs(selection) # execute script that collects the PDFs, and unites them into one a tmp file: shadow_library.pdf
 			# The #shadowlibrary code can only be used once, as it will overwrite the tmp pdf file, each time that it is triggered.
 		if "bye" in event.message.lower() or "goodbye" in event.message.lower():
