@@ -72,12 +72,11 @@ def get_pdf_filename(selection_id):
 	index = [item.split('\t') for item in index]
 	# print(index)
 	pdfs = []
-	for selection_id in selection_ids:
-		for item in index:
-			pdf_id = item[0]
-			pdf = item[1].replace(' ', '\ ') # to work with spaces in files
-			if selection_id == pdf_id:
-				return pdf
+	for item in index:
+		pdf_id = item[0]
+		pdf = item[1].replace(' ', '\ ') # to work with spaces in files
+		if number == pdf_id:
+			return pdf.replace('\ ', '')
 
 # selection_ids = ['009']
 # selection_ids = ['001', '002', '003']

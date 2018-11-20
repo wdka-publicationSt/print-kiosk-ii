@@ -6,7 +6,7 @@ import json, os, sys
 from datetime import datetime
 from time import sleep
 from queue2pdf import queue2pdf
-from printerreceipt import printer
+# from printerreceipt import printer
 import argparse
 from receiptprintercmds import escpos, stdout, stderr
 
@@ -60,12 +60,16 @@ shadow_library_pdf = 'shadow_library.pdf'
 printstack_pdf = 'output/print-stack.{}.pdf'.format(timestamp)
 if os.path.isdir('output') is False:
     os.mkdir('output')
-cmd = 'pdfunite {} {} {}'.format(shadow_library_pdf, annex_pdf, printstack_pdf) # shadow_library.pdf + annex.pdf
+# cmd = 'pdfunite {} {} {}'.format(shadow_library_pdf, annex_pdf, printstack_pdf) # shadow_library.pdf + annex.pdf
+cmd = 'pdftk {} {} output {}'.format(shadow_library_pdf, annex_pdf, printstack_pdf) # shadow_library.pdf + annex.pdf
+print(cmd)
+os.system(cmd)
+cmd = 'gs -o {} -sDEVICE=pdfwrite -sPAPERSIZE=a4 -dFIXEDMEDIA -dPDFFitPage -dCompatibilityLevel=1.4 {}'.format(printstack_pdf, printstack_pdf) # to resize to A4
 print(cmd)
 os.system(cmd)
 print('*shadow_library.pdf + annex.pdf united*')
 
-print('Your PDF will be printed soon. Thanks you!', '\n\n\n', file=stdout) # move to print-sequence 
+print('Your PDF will be printed soon. Thank you!', '\n\n\n', file=stdout) # move to print-sequence 
 sleep(1)
 print('ps. .... I added an ANNEX ad well, to leak some information from the making process. Hope you will enjoy it!', '\n\n\n\n\n\n', file=stdout)
 cmd = "lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=printstack_pdf)
