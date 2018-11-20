@@ -8,8 +8,8 @@ from colors import colors
 from pprint import pprint
 from search_wiki import search_request
 from random import shuffle
-from receiptprintercmds import escpos,stdout, stderr
-
+# from receiptprintercmds import escpos, stdout, stderr
+from receiptprintercmds import escpos
 
 #print(questions)
 
@@ -92,10 +92,10 @@ def questionnaire():
                        '\n\n\n\n\n\n\n\n\n\n',
                       file=stdout)
                 answer = stdin.readline().lower()
-                print(escpos['justify_center'],answer,'\n\n\n\n', file=stdout)
+                print(escpos['justify_center'], answer,'\n\n\n\n', file=stdout)
                 print(escpos['justify_left'], file=stdout)                
                 search_results = search_request(query=answer, namespace='0', reach='text')
-                if  len(list( set(articles_index).intersection( search_results ) )) > 20: # if search_results in articles_index are > N                       
+                if len(list( set(articles_index).intersection( search_results ) )) > 20: # if search_results in articles_index are > N                       
                     print ( reply, "\n\n\n", file=stdout ) 
                     break  # and break the while loop # MOVE TO F5
                 else:   # continue loop
