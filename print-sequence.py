@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from sys import stdin, stderr, stdout
 from pprint import pprint
 import json, os, sys
 from datetime import datetime
@@ -7,8 +8,8 @@ from time import sleep
 from queue2pdf import queue2pdf
 #from printerreceipt import printer
 import argparse
-from receiptprintercmds import escpos, stdout, stderr
-
+# from receiptprintercmds import escpos, stdout, stderr
+from receiptprintercmds import escpos
 
 ######## 
 # squence started by every new user/print
@@ -46,26 +47,23 @@ print('Please be patient. I am working on prodcuing your print out','\n\n' , fil
 
 queue2pdf('all_pages.json', 'queue.tmp.json', 'queue.tmp.html', 'latex.metadata.yaml', pdf_filename)
 
-# # 4 - add the Shadow Library PDF selection 
+# 4 - prepare the Shadow Library PDF selection 
 from irc import irc
 irc("bs_user") #start the IRC chat, the script listens to the #shadowlibrary key to collect PDF(s) from the BS Shadow Library. The PDF's can be inserted by using the id numbers from the shadow_library.csv file.
-#cmd = 'pdfunite {} {} output/print.queue.{}.pdf'.format(pdf_filename, 'shadow_library.pdf', timestamp) # unite the questionnaire PDF with the shadow_library PDF
-# print(cmd)
-# os.system(cmd)
 
-# 5 - add Rümneysa's work, the glossary
-
-# See the pad for notes that i wrote for Rümeysa. These are suggestions about the place where she can leave her definitions.
-# How can we include these pages or descriptions in the print queue ..... ?
-# Perhaps we better do this manually?
+# 5 - 
+annex_pdf = 'annex.pdf'
+shadow_library_pdf = 'shadow_library.pdf'
+if os.path.isdir('output') is False:
+    os.mkdir('output')
+cmd = 'pdfunite {} {} {} output/print-stack.{}.pdf'.format(pdf_filename, shadow_library_pdf, annex_pdf, timestamp) # questionnaire PDF + shadow_library.pdf + annex.pdf
+print(cmd)
+os.system(cmd)
 
 # 6 - print
-
-
 # stupid growing spaces
-print('Your PDF will be printed soon. Thanks you!','\n\n\n' , file=stdout) # move to print-sequence 
-
-os.system("lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4  {pdf}".format( pdf=pdf_filename ) )
+print('Your PDF will be printed soon. Thanks you!', '\n\n\n', file=stdout) # move to print-sequence 
+os.system("lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=pdf_filename))
 #if args.noreceipt is False:
 
 # #receipt printer
