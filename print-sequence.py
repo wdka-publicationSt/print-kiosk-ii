@@ -45,13 +45,16 @@ pdf_filename = 'tmp/queue.{}.pdf'.format(timestamp)
 print('Please be patient. I am working on prodcuing your print out','\n\n' , file=stdout) # move to print-sequence 
 
 queue2pdf('all_pages.json', 'queue.tmp.json', 'queue.tmp.html', 'latex.metadata.yaml', pdf_filename)
-os.system("lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=pdf_filename))
+cmd = "lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=pdf_filename)
+print(cmd)
+os.system(cmd)
+print('First PDF (questionnaire selection) is printing ...')
 
 # 4 - prepare the Shadow Library PDF selection 
 from irc import irc
 irc("bs_user") #start the IRC chat, the script listens to the #shadowlibrary key to collect PDF(s) from the BS Shadow Library. The PDF's can be inserted by using the id numbers from the shadow_library.csv file.
 
-# 5 - 
+# 5 - unite shadow_library.pdf + annex.pdf && print this pdf
 annex_pdf = 'annex.pdf'
 shadow_library_pdf = 'shadow_library.pdf'
 printstack_pdf = 'output/print-stack.{}.pdf'.format(timestamp)
@@ -60,13 +63,15 @@ if os.path.isdir('output') is False:
 cmd = 'pdfunite {} {} {}'.format(shadow_library_pdf, annex_pdf, printstack_pdf) # shadow_library.pdf + annex.pdf
 print(cmd)
 os.system(cmd)
+print('*shadow_library.pdf + annex.pdf united*')
 
-# 6 - print
-# stupid growing spaces
 print('Your PDF will be printed soon. Thanks you!', '\n\n\n', file=stdout) # move to print-sequence 
 sleep(1)
 print('ps. .... I added an ANNEX ad well, to leak some information from the making process. Hope you will enjoy it!', '\n\n\n\n\n\n', file=stdout)
-os.system("lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=printstack_pdf))
+cmd = "lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=printstack_pdf)
+print(cmd)
+os.system(cmd)
+print('Second PDF (shadow_library + annex) is printing ...')
 #if args.noreceipt is False:
 
 # #receipt printer
