@@ -65,7 +65,7 @@ os.system(cmd)
 # stupid growing spaces
 print('Your PDF will be printed soon. Thanks you!', '\n\n\n', file=stdout) # move to print-sequence 
 sleep(1)
-print('ps. .... I added an ANNEX ad well, to leak some information from the making process. Hope you will enjoy it!', '\n\n\n', file=stdout)
+print('ps. .... I added an ANNEX ad well, to leak some information from the making process. Hope you will enjoy it!', '\n\n\n\n\n\n', file=stdout)
 os.system("lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=printstack_pdf))
 #if args.noreceipt is False:
 
