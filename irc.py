@@ -6,7 +6,7 @@ from sys import stdin, stderr, stdout
 from time import sleep
 from getpass import getpass
 import re
-from shadow_library import grep_shadow_pdfs
+from shadow_library import grep_shadow_pdfs, get_pdf_filename
 from receiptprintercmds import escpos, stdout, stderr
 
 class bs_irc_user(bot.SimpleBot):
@@ -17,7 +17,8 @@ class bs_irc_user(bot.SimpleBot):
 		print("Answer:",  '\n\n\n\n\n\n\n', file=stdout)
 		if "#shadowlibrary" in event.message.lower():
 			selection = re.findall(r'\d\d\d', event.message)
-			print('I selected this PDF(s) for you #', selection,  '\n\n\n\n\n\n\n',  file=stdout)
+			filename = get_pdf_filename(selection) # get name of pdf
+			print('I selected this PDF(s) for you:', filename, '\n\n\n\n\n\n\n', file=stdout)
 			grep_shadow_pdfs(selection) # execute script that collects the PDFs, and unites them into one a tmp file: shadow_library.pdf
 			# The #shadowlibrary code can only be used once, as it will overwrite the tmp pdf file, each time that it is triggered.
 		if "bye" in event.message.lower() or "goodbye" in event.message.lower():
