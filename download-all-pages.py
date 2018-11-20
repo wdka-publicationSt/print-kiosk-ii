@@ -23,7 +23,6 @@ def all_pages_dict():
         pages_dict[page_title]["title"] = page.page_title        
         pages_dict[page_title]["text"] = (site.api('parse',  pageid = pages_dict[page_title]["id"]))['parse']['text']['*'] # html text
         pages_dict[page_title]["length"] = count_article_length(pages_dict[page_title]["text"]) # length of the article (number of words)
-        #print(pages_dict[page_title]["text"])
         pages_dict[page_title]["extlinks"] = list(page.extlinks())
         pages_dict[page_title]["categories"] = [cat.page_title for cat in list(page.categories())] # .page_title because categories are a also pages, and presented as such
         pages_dict[page_title]["images"] = [img.page_title for img in list(page.images())] #img.name #includes 'File:' in response
@@ -33,9 +32,11 @@ def all_pages_dict():
         pages_dict[page_title]["revisions"] = { "recent_revision_user": revisions[0]['user'],
                            "recent_revision_time": revisions[0]['timestamp'],
                            "recent_revision_time_iso":datetime(*(revisions[0]['timestamp'])[:6]).isoformat(),
+                           "recent_revision_comment": revisions[0]['comment'],
                            "first_revision_user": revisions[-1]['user'],
                            "first_revision_time": revisions[-1]['timestamp'],
-                           "first_revision_time_iso":datetime(*(revisions[-1]['timestamp'])[:6]).isoformat()
+                           "first_revision_time_iso":datetime(*(revisions[-1]['timestamp'])[:6]).isoformat(),
+                           "first_revision_comment": revisions[-1]['comment']
 
                            # time info comes in time.struct_time format
                            # making possible to query with  time.tm_year time.tm_mon
