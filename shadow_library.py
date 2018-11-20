@@ -61,6 +61,24 @@ def grep_shadow_pdfs(selection_ids):
 		# os.system(cmd)
 		# print('\n*{}* is [pdf]united!\n'.format(outfile))
 
+def get_pdf_filename(selection_id):
+	# check if the shadow_library.csv file needs to be created
+	if os.path.isfile('shadow_library.csv') == False: 
+		create_shadow_index()
+
+	number = selection_id[0]
+	index = open('shadow_library.csv', 'r').readlines()
+	index = [item.replace('\n', '') for item in index]
+	index = [item.split('\t') for item in index]
+	# print(index)
+	pdfs = []
+	for selection_id in selection_ids:
+		for item in index:
+			pdf_id = item[0]
+			pdf = item[1].replace(' ', '\ ') # to work with spaces in files
+			if selection_id == pdf_id:
+				return pdf
+
 # selection_ids = ['009']
 # selection_ids = ['001', '002', '003']
 # grep_shadow_pdfs(selection_ids)
