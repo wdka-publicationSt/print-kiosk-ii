@@ -6,10 +6,9 @@ import json, os, sys
 from datetime import datetime
 from time import sleep
 from queue2pdf import queue2pdf
-#from printerreceipt import printer
+from printerreceipt import printer
 import argparse
-# from receiptprintercmds import escpos, stdout, stderr
-from receiptprintercmds import escpos
+from receiptprintercmds import escpos, stdout, stderr
 
 ######## 
 # squence started by every new user/print
