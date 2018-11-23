@@ -8,7 +8,7 @@ from time import sleep
 from queue2pdf import queue2pdf
 # from printerreceipt import printer
 import argparse
-from receiptprintercmds import escpos, stdout, stderr
+from receiptprintercmds import escpos, asciiart, stdout, stderr
 
 ######## 
 # squence started by every new user/print
@@ -19,7 +19,7 @@ print(escpos['init_printer'], file=stdout)
 print(escpos['justify_center'], file=stdout)
 greeting = open("ELAINE.txt","r").read()
 print(greeting, file=stdout)
-print("\n\n\n\n\n\n", file=stdout)
+print(asciiart['flames2'], file=stdout)
 print(escpos['justify_left'], file=stdout)
 sleep(3)
 
@@ -41,7 +41,7 @@ timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 if os.path.isdir('tmp') is False:
     os.mkdir('tmp')
 pdf_filename = 'tmp/queue.{}.pdf'.format(timestamp)
-print('Please be patient. I am working on prodcuing your print out','\n\n' , file=stdout) # move to print-sequence 
+print('Please be patient. I am working on prodcuing your print out', asciiart['flames2'], file=stdout) # move to print-sequence 
 queue2pdf('all_pages.json', 'queue.tmp.json', 'queue.tmp.html', 'latex.metadata.yaml', pdf_filename)
 # cmd = 'pdftk {} multibackground {} output {}'.format(pdf_filename, 'abstract.pdf', pdf_filename) # a little trick to add a custom abstract (instead of an abstract through LaTeX)
 
@@ -69,7 +69,7 @@ print('Second PDF (shadow_library) is printing ...')
 
 sleep(3)
 
-print('ps. .... I added an ANNEX as well, to leak some information from the making process. Hope you will enjoy it!', '\n\n\n\n\n\n', file=stdout)
+print('ps. .... I added an ANNEX as well, to leak some information from the making process. Hope you will enjoy it!', asciiart['flames2'], file=stdout)
 annex_pdf = 'annex.pdf'
 cmd = "lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=annex_pdf)
 print(cmd)

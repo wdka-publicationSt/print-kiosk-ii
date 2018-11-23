@@ -8,7 +8,7 @@ from colors import colors
 from pprint import pprint
 from search_wiki import search_request
 from random import shuffle
-from receiptprintercmds import escpos, stdout, stderr
+from receiptprintercmds import escpos, asciiart, stdout, stderr
 
 #print(questions)
 
@@ -38,8 +38,7 @@ def check_first_edit(first_edit_hour):
 
 data = load_mw_data()
 
-print('Please answer these questions with your general first impression response. Don\'t overthink it.',
-      '\n\n\n', file=stdout)
+print(escpos['reverse_print_on'],'Please answer these questions with your general first impression response. Don\'t overthink it.', escpos['reverse_print_off'], asciiart['flames2'], file=stdout)
 
 def questionnaire():
     articles_index = [] # list of matching articles; after articles are added in 'time' questions, they are filtered out inf following questions to produce the final list of articles
@@ -55,19 +54,19 @@ def questionnaire():
                 print(q,
                       '\n\n\n',
                       options,
-                      '\n\n\n\n\n\n\n\n\n\n',
+                      '\n\n\n\n\n\n\n',
                       file=stdout)
                 answer = stdin.readline().lower()
-                print(escpos['justify_center'],answer,'\n\n\n\n', file=stdout)
+                print(escpos['justify_center'], answer, asciiart['flames2'], file=stdout)
                 print(escpos['justify_left'], file=stdout)
                 if 'yes' in answer:
-                    print( 'Carpe diem!', '\n\n\n\n\n', file=stdout)
+                    print( 'Carpe diem!', asciiart['flames2'], file=stdout)
                     break
                 elif 'no' in answer:
-                    print('Me neither.', '\n\n\n\n\n', file=stdout)
+                    print('Me neither.', asciiart['flames2'], file=stdout)
                     break
                 print('Hmm ..not quite sure about', answer, 
-                      '\n\n', 'Can you please answer yes or no?','\n\n\n\n\n', file=stdout)
+                      'Can you please answer yes or no?', asciiart['flames2'], file=stdout)
 
             # populate the articles_index by comparing the answer with the officehours
             for page, page_data in data.items(): 
@@ -88,17 +87,17 @@ def questionnaire():
                 # in which case the loop breaks
                 # otherwise it continues asking the user for terms, searching, and comparing to articles_index
                 print(q,
-                       '\n\n\n\n\n\n\n\n\n\n',
+                       asciiart['flames2'],
                       file=stdout)
                 answer = stdin.readline().lower()
-                print(escpos['justify_center'], answer,'\n\n\n\n', file=stdout)
+                print(escpos['justify_center'], answer, asciiart['flames2'], file=stdout)
                 print(escpos['justify_left'], file=stdout)                
                 search_results = search_request(query=answer, namespace='0', reach='text')
                 if len(list( set(articles_index).intersection( search_results ) )) > 20: # if search_results in articles_index are > N                       
-                    print ( reply, "\n\n\n", file=stdout ) 
-                    break  # and break the while loop # MOVE TO F5
-                else:   # continue loop
-                    print ( error[n], "\n\n\n", file=stdout)
+                    print(reply, asciiart['flames2'], file=stdout ) 
+                    break # and break the while loop # MOVE TO F5
+                else: # continue loop
+                    print(error[n], asciiart['flames2'], file=stdout)
                     if n == 2:
                         break # break while loop after 3rd attempt # MOVE TO F3 (to do)
                     
@@ -121,15 +120,15 @@ def questionnaire():
             user_terms = [] 
             search_results_in_articles_index = []
             print(q,
-                  "\n\n\n\n\n",
+                  asciiart['flames2'],
                   file=stdout)
             shuffle(options)
             #print( options )
             for option in options:
                 subquestion = 'When I say {}, you say: ___________'.format(option)
-                print(subquestion, '\n\n\n\n\n\n\n\n\n', file=stdout)
+                print(subquestion, asciiart['flames2'], file=stdout)
                 answer = stdin.readline()
-                print(escpos['justify_center'],answer,'\n\n\n\n', file=stdout)
+                print(escpos['justify_center'],answer, asciiart['flames2'], file=stdout)
                 print(escpos['justify_left'], file=stdout)
                 user_terms.append(answer.replace('\n', '')) # TODO add to questions dict                
                 search = search_request(query=answer, namespace=0, reach='text')
@@ -148,7 +147,7 @@ def questionnaire():
             else:
                 articles_index = search_results_in_articles_index
 
-            print("Ok, so based on the information you have provided, I think I have a nice selection of Beyond Social articles for you to read. These have been written by students, teachers, and friends of WdKA Social Practices. While I print this out for you, one of my chatbots will serve you a parting gift from our shadow library. It contains research material that our teachers are currently reading or writing.", "\n\n\n\n\n",file=stdout)
+            print("Ok, so based on the information you have provided, I think I have a nice selection of Beyond Social articles for you to read. These have been written by students, teachers, and friends of WdKA Social Practices. While I print this out for you, one of my chatbots will serve you a parting gift from our shadow library. It contains research material that our teachers are currently reading or writing.", asciiart['flames2'],file=stdout)
                 
  #           print('\n\n\n> > > In the print queue, {} pages were found to contain the words {}\n\n\n'.format(len(articles_index),(", ").join(user_terms) ),file=stdout )
 #            print( '\n\n\n> > > The following articles will be printed:\n\n\n', colors.GREEN, (("\n\n\n").join(articles_index ) ), colors.ENDC )

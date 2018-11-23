@@ -181,8 +181,7 @@ def html2pdf(html_tmp_filename, metadata_filename, pdf_filename):
         metadata_authors_option = (" ").join(metadata_authors_option)
         #print(metadata_authors_option)
         #print (metadata)
-        # cmd = '''pandoc -f html -t latex --latex-engine xelatex --template=latex.twocolumns.tex --title "PRINT KIOSK II" --metadata=title:"{title}" --metadata=abstract:"{abstract}" {authors} -N -V papersize=a4 -V version=2.0 -V thanks="Thank you!" -V toc-title="Table of Contents" {inputfile} --toc -o {outputfile}'''.format(
-        cmd = '''pandoc -f html -t latex --pdf-engine xelatex --template=latex.twocolumns.tex --title "PRINT KIOSK II" --metadata=title:"{title}" --metadata=abstract:"{abstract}" {authors} -N -V papersize=a4 -V version=2.0 -V thanks="Thank you!" -V toc-title="Table of Contents" {inputfile} --toc -o {outputfile}'''.format(
+        cmd = '''pandoc -f html -t latex --latex-engine xelatex --template=latex.twocolumns.tex --title "PRINT KIOSK II" --metadata=title:"{title}" --metadata=abstract:"{abstract}" {authors} -N -V papersize=a4 -V version=2.0 -V thanks="Thank you!" -V toc-title="Table of Contents" {inputfile} --toc -o {outputfile}'''.format(
                 title = metadata['title'],
                 abstract = metadata['abstract'],
                 authors = metadata_authors_option,
