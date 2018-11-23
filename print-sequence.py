@@ -36,7 +36,7 @@ w.write(json.dumps(print_queue, indent=4))
 w.close()
 print('print_queue contains:', len(print_queue), 'articles')
 
-# 3 - produce the PDF
+# 3a - produce the PDF
 timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 if os.path.isdir('tmp') is False:
     os.mkdir('tmp')
@@ -45,7 +45,7 @@ print('Please be patient. I am working on prodcuing your print out','\n\n' , fil
 queue2pdf('all_pages.json', 'queue.tmp.json', 'queue.tmp.html', 'latex.metadata.yaml', pdf_filename)
 # cmd = 'pdftk {} multibackground {} output {}'.format(pdf_filename, 'abstract.pdf', pdf_filename) # a little trick to add a custom abstract (instead of an abstract through LaTeX)
 
-# --- end print it
+# 3b - and print it
 cmd = "lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=pdf_filename)
 print(cmd)
 os.system(cmd)
@@ -56,10 +56,13 @@ from irc import irc
 irc("bs_user") #start the IRC chat, the script listens to the #shadowlibrary key to collect PDF(s) from the BS Shadow Library. The PDF's can be inserted by using the id numbers from the shadow_library.csv file.
 
 # 5 - print shadow_library.pdf + annex.pdf
-print('Your PDF will be printed soon. Thank you!', '\n\n\n', file=stdout) # move to print-sequence 
-
 shadow_library_pdf = 'shadow_library.pdf'
-cmd = "lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=shadow_library_pdf)
+shadow_library_pdf_a4 = 'shadow_library_A4.pdf'
+cmd_resize_SL =  "pdfjam --outfile {} --paper A4 {}".format(shadow_library_pdf_a4, shadow_library_pdf) # resize pdf to A4
+os.system(cmd_resize_SL)
+
+# print shadow_library_pdf_a4
+cmd = "lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=shadow_library_pdf_a4)
 print(cmd)
 os.system(cmd)
 print('Second PDF (shadow_library) is printing ...')
@@ -67,7 +70,6 @@ print('Second PDF (shadow_library) is printing ...')
 sleep(3)
 
 print('ps. .... I added an ANNEX as well, to leak some information from the making process. Hope you will enjoy it!', '\n\n\n\n\n\n', file=stdout)
-
 annex_pdf = 'annex.pdf'
 cmd = "lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=annex_pdf)
 print(cmd)
