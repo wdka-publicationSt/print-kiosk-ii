@@ -125,24 +125,24 @@ def queue2html(queue, html_filename):
 	queue_html = ''
 	keywords = []
 	for page, _ in queue.items():
-
-		# collect content
-		title = queue[page]['title']
-		contributors = queue[page]['contributors']
-		categories = queue[page]['categories']
-		first_rev_values = queue[page]['revisions']['first_revision_time']
-		first_rev = '{} {} {}, {}:{}h'.format(first_rev_values[2], datetime.date(first_rev_values[0], first_rev_values[1], 1).strftime('%B'), first_rev_values[0], first_rev_values[3], first_rev_values[4])
-		first_rev_user = queue[page]['revisions']['first_revision_user']
-		first_rev_comment = ''
-		# first_rev_comment = queue[page]['revisions']['first_revision_comment']
-		recent_rev_values = queue[page]['revisions']['recent_revision_time']
-		recent_rev = '{} {} {}, {}:{}h'.format(recent_rev_values[2], datetime.date(recent_rev_values[0], recent_rev_values[1], 1).strftime('%B'), recent_rev_values[0], recent_rev_values[3], recent_rev_values[4])
-		recent_rev_user = queue[page]['revisions']['recent_revision_user']
-		recent_rev_comment = ''
-		# recent_rev_comment = queue[page]['revisions']['recent_revision_comment']
-		content = queue[page]['text']
-		current_page_html = get_article_template(title, contributors, categories, first_rev, first_rev_user, recent_rev, recent_rev_user, content)
-		queue_html = queue_html + current_page_html
+		if '<table>' not in queue[page]['text']: # the tables make the latex generation break, so unfortunately we filter pages that use a table out...
+			# collect content
+			title = queue[page]['title']
+			contributors = queue[page]['contributors']
+			categories = queue[page]['categories']
+			first_rev_values = queue[page]['revisions']['first_revision_time']
+			first_rev = '{} {} {}, {}:{}h'.format(first_rev_values[2], datetime.date(first_rev_values[0], first_rev_values[1], 1).strftime('%B'), first_rev_values[0], first_rev_values[3], first_rev_values[4])
+			first_rev_user = queue[page]['revisions']['first_revision_user']
+			first_rev_comment = ''
+			# first_rev_comment = queue[page]['revisions']['first_revision_comment']
+			recent_rev_values = queue[page]['revisions']['recent_revision_time']
+			recent_rev = '{} {} {}, {}:{}h'.format(recent_rev_values[2], datetime.date(recent_rev_values[0], recent_rev_values[1], 1).strftime('%B'), recent_rev_values[0], recent_rev_values[3], recent_rev_values[4])
+			recent_rev_user = queue[page]['revisions']['recent_revision_user']
+			recent_rev_comment = ''
+			# recent_rev_comment = queue[page]['revisions']['recent_revision_comment']
+			content = queue[page]['text']
+			current_page_html = get_article_template(title, contributors, categories, first_rev, first_rev_user, recent_rev, recent_rev_user, content)
+			queue_html = queue_html + current_page_html
 
 	out = open(html_filename, 'w+')
 	out.write(queue_html)
@@ -172,24 +172,24 @@ def html2pdf(html_tmp_filename, metadata_filename, pdf_filename):
 	# fontsize=100 (doesn't work...)
 	# documentclass=twocolumn, article, report, book, memoir
 
-         # parse metadata
-         # version of pandoc used in pi cannot read yaml
-         # so individual metadata key:value are given
-         
-        metadata = get_yaml_data("latex.metadata.yaml")
-        metadata_authors_option = ['--metadata=author:"{}"'.format(authorname) for authorname in metadata['authors'] ]
-        metadata_authors_option = (" ").join(metadata_authors_option)
-        #print(metadata_authors_option)
-        #print (metadata)
-        cmd = '''pandoc -f html -t latex --latex-engine xelatex --template=latex.twocolumns.tex --title "PRINT KIOSK II" --metadata=title:"{title}" --metadata=abstract:"{abstract}" {authors} -N -V papersize=a4 -V version=2.0 -V thanks="Thank you!" -V toc-title="Table of Contents" {inputfile} --toc -o {outputfile}'''.format(
-                title = metadata['title'],
-                abstract = metadata['abstract'],
-                authors = metadata_authors_option,
-                inputfile=html_tmp_filename,
-                outputfile=pdf_filename)
-        # print(cmd)
-        os.system(cmd)
-        print('*done! {} written*'.format(pdf_filename))
+    # parse metadata
+    # version of pandoc used in pi cannot read yaml
+    # so individual metadata key:value are given
+     
+    metadata = get_yaml_data("latex.metadata.yaml")
+    metadata_authors_option = ['--metadata=author:"{}"'.format(authorname) for authorname in metadata['authors'] ]
+    metadata_authors_option = (" ").join(metadata_authors_option)
+    #print(metadata_authors_option)
+    #print (metadata)
+    cmd = '''pandoc -f html -t latex --latex-engine xelatex --template=latex.twocolumns.tex --title "PRINT KIOSK II" --metadata=title:"{title}" --metadata=abstract:"{abstract}" {authors} -N -V papersize=a4 -V version=2.0 -V thanks="Thank you!" -V toc-title="Table of Contents" {inputfile} --toc -o {outputfile}'''.format(
+            title = metadata['title'],
+            abstract = metadata['abstract'],
+            authors = metadata_authors_option,
+            inputfile=html_tmp_filename,
+            outputfile=pdf_filename)
+    # print(cmd)
+    os.system(cmd)
+    print('*done! {} written*'.format(pdf_filename))
 
 # --- main function, generate the pdf
 def queue2pdf(data_json_file, queue_json_file, html_tmp_filename, metadata_filename, pdf_filename):

@@ -38,9 +38,11 @@ def check_first_edit(first_edit_hour):
 
 data = load_mw_data()
 
-print(escpos['reverse_print_on'],'Please answer these questions with your general first impression response. Don\'t overthink it.', escpos['reverse_print_off'], asciiart['flames2'], file=stdout)
+
 
 def questionnaire():
+    print(escpos['reverse_print_on'],'Please answer these questions with your general first impression response. Don\'t overthink it.', escpos['reverse_print_off'], asciiart['flames2'], file=stdout)
+
     articles_index = [] # list of matching articles; after articles are added in 'time' questions, they are filtered out inf following questions to produce the final list of articles
 
     for key in sorted(questions):
@@ -62,6 +64,8 @@ def questionnaire():
                 if 'yes' in answer:
                     print( 'Carpe diem!', asciiart['flames2'], file=stdout)
                     break
+                elif answer == '\n':
+                    continue
                 elif 'no' in answer:
                     print('Me neither.', asciiart['flames2'], file=stdout)
                     break
@@ -147,7 +151,7 @@ def questionnaire():
             else:
                 articles_index = search_results_in_articles_index
 
-            print("Ok, so based on the information you have provided, I think I have a nice selection of Beyond Social articles for you to read. These have been written by students, teachers, and friends of WdKA Social Practices. While I print this out for you, one of my chatbots will serve you a parting gift from our shadow library. It contains research material that our teachers are currently reading or writing.", asciiart['flames2'],file=stdout)
+            print("Ok, so based on the information you have provided, I think I have a nice selection of Beyond Social articles for you to read. These have been written by students, teachers, and friends of WdKA Social Practices. \n\n\nWhile I print this out for you, one of my chatbots will serve you a parting gift from our shadow library. It contains research material that our teachers are currently reading or writing.", asciiart['flames2'],file=stdout)
                 
  #           print('\n\n\n> > > In the print queue, {} pages were found to contain the words {}\n\n\n'.format(len(articles_index),(", ").join(user_terms) ),file=stdout )
 #            print( '\n\n\n> > > The following articles will be printed:\n\n\n', colors.GREEN, (("\n\n\n").join(articles_index ) ), colors.ENDC )
