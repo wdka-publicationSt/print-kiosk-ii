@@ -1,0 +1,37 @@
+FILENAME,DESCRIPTION,STATUS,TO DO
+,,,
+colors.py,dictionary with terminal colors for printing.,Stable; Not essential,
+download-all-pages.py,downloads all wiki pages,Stable,Run frequently (every time Pi boots): check if there has been changes in pages or new pages added and downloads them
+download-images.py,downloads all wiki images,Stable,Run frequently (every time Pi boots): check if new added were added and downloads them
+functions.py,??,,
+irc.py,connects to irc and creates chat interface,Experimental,Improve the chat interface
+latex.queue2pdf.py,converts html content to PDF using LaTeX,Stable,Address 2  column error
+print-sequence.py,Integrates all scripts into a sequence of steps. Launched when the user starts,Stable,Start automatically everytime a user finishes. Printing on the background (not stopping sequence)
+questionnaire.py,"Series of questions to user, which result in article selection",Stable,Add article size/images  questions as fail-safe
+questions.py,Dictionary with questions for questionnaire.py,Stable,
+queue2pdf.py,??,,
+read-yaml.py,Read metadata,Stable,
+receiptprintercmds.py,Dictionary with receipt printer formating instructions ,Stable,
+images-process.sh,dithers images,Stable,add resize command
+,,,
+latex.twocolumns.tex,PDF template,,
+,,,
+annex.pdf,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+requirements.txt,,,
+search_wiki.py,,,
+shadow_library.py,,,
+text-processing/wiki_word_count.py,,,
+wikisite.py,,,
