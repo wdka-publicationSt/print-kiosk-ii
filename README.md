@@ -8,8 +8,9 @@ A text based conversational interface to the Beyond Social wiki - 2 - print.
 
 # Install
 * poppler-utils
-* [pandoc](https://pandoc.org/) In Pi use apt to install
+* [pandoc](https://pandoc.org/) On Pi use apt to install
 * texlive-xetex 
+* pdfjam
 * python Libraries (via pip3)
   * bs4 (BeuatifulSoup)
   * nltk
