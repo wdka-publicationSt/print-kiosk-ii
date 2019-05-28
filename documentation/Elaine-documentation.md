@@ -33,8 +33,16 @@ The list of pages is shrinking depending on the answers given to each question
 * \#1: Load pages index: all_pages.json
 * \#2: Starts questionnaire
 
+## search_wiki.py
+
+## queue2pdf
+
+## receiptprintercmds.py
+
 # TODO:
 depending on pandoc version
 when running queue2pdf()provide option: 
 * `--latex-engine`
 * `--pdf-engine` 
+
+

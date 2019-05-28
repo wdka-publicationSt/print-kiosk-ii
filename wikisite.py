@@ -15,5 +15,5 @@ p.add_argument("--path", default="/wiki/", help="nb: should end with /")
 args = p.parse_args()
 
 
-site = Site(('http',args.host), args.path)
+site = Site(args.host, args.path)
 # print(site)
