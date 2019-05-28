@@ -1,47 +1,90 @@
-# Beyond Social Print-kiosk-ii
+# Elaine
 
-A text based conversational interface to the Beyond Social wiki - 2 - print.
+Electronic Library Artificial Intelligence Networked Entity
 
-# requirements
-## Download
-* [BS Shadow Library folder](https://virtualprivateserver.space/~mb/files/BS-Shadow-Library.zip) should be placed in ../
+Elaine is a text based conversational interface to the Beyond Social wiki. Elaine runs on her own infrastructure: a Raspberry Pi, a EPSON thermal printer and a Canon laserprinter, while being embedded in the WdKA's network.
 
-# Install
+# Requirements
+## Beyond Social Shadow Library
+* [BS Shadow Library](https://beyond-social.org/BS-Shadow-Library/) (zip file, 345MB) should be placed in `../`. The folder should be named `BS-Shadow-Library`.
+
+## Software
 * poppler-utils
-* [pandoc](https://pandoc.org/) On Pi use apt to install
+* [pandoc](https://pandoc.org/) version? -- on the pi: use apt to install
 * texlive-xetex 
-* pdfjam
-* python Libraries (via pip3)
+* pdfjam 
+* pandoc
+<!-- 
+You need to install the `bidi` (bidirectional) package of TeX.
+You can do this by using the TeX package manager tlmgr.
+
+If you never used tlmgr before, you need to init the user tree:
+	
+	$ tlmgr init-usertree
+
+In case you need to upgrade tlmgr, follow this page: [https://tug.org/texlive/upgrade.html](https://tug.org/texlive/upgrade.html)
+
+Then install the `bidi` package:
+
+	$ tlmgr  -->
+
+* python3 Libraries (via pip3)
   * bs4 (BeuatifulSoup)
   * nltk
   * ircutils3
   * pypandoc
   * mwclient
   * html5lib
-  
-* run scripts that fetch content:
-  * download-all-pages.py
-  * download-images.py
-  
+  * pprint
+  * pyyaml
+
+You can use the requirement.txt file to install them all at the same time: 
+
+`$ pip3 install -r requirements.txt --user`
+
+Elaine runs directly from the pi. Before she can be started, you need to download the content from the Beyond Social wiki (all pages and all images) to the pi, and let Elaine interact with it from there.
+
+* run scripts that fetch content from the Beyond Social wiki:
+ 
+`$ python3 download-all-pages.py`
+
+`$ python3 download-images.py`
   
 * install printer
+  * connect the thermal printer to the pi (USB)
+  * connect the laster printer to the pi (USB)
 
-
-
-
-
-
-
-
-
-
+# Bird eye perspective
 In a bird perspective, the plan at the moment is to work on ...
 
-* API request wiki page_index
-* questions (type 1 = metadata, type 2 = topics, type 3 = irc chat)
-* Article Index
-* API content gathering
-* Layouts
+* download all wiki content (using API requests)
+  * Article Index
+  * API content gathering
+
+* conversational interface with Elaine 
+	* scene 1 = chat bot (questionnaire)
+		* design of wiki articles using **LaTEX**
+		* design of an **annex** using (?)
+	* scene 2 = irc chat (chat with online librarians)
+		* merging PDFs with PDFJam
+
+# Scripts
+
+An overview of all the files and a short description of what they do can be found in the file `Elaine-files.csv`.
+
+# Run Elaine
+
+To execute Elaine use `print-sequence.py`.
+
+A conversation with Elaine follows 2 scenes:.
+
+## Scene 1 - Questionnaire (metadata + topics)
+
+Based on a questionnaire, you retrieve wiki articles. 
+First Elaine asks you questions that are based on **metadata**. 
+Then she asks you questions about **Frictionary topics**.
+
+## Scene 2 - Shadow Library (IRC librarian chat)
 
 -----
 
