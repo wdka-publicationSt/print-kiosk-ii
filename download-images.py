@@ -41,13 +41,13 @@ for wiki_img in list(wiki_images):
                 height= str(set_hight) ,
                 page=wiki_img.name.replace(" ", "_"))
             api_query = api + api_thumb_action
-            with urllib.request.urlopen(api_query) as response:
-                api_thumb = response.read().decode('utf-8')
-                api_thumb = json.loads(api_thumb)
-
-            try:
-                api_thumb_key = [*api_thumb['query']['pages'].keys()][0]
-                url = api_thumb['query']['pages'][api_thumb_key]['imageinfo'][0]['thumburl']
+            api_query = urllib.parse.quote(api_query)
+            try:  # try getting the thumbnail file url 
+                with urllib.request.urlopen(api_query) as response:
+                    api_thumb = response.read().decode('utf-8')
+                    api_thumb = json.loads(api_thumb)
+                    api_thumb_key = [*api_thumb['query']['pages'].keys()][0]
+                    url = api_thumb['query']['pages'][api_thumb_key]['imageinfo'][0]['thumburl']
             except: # if cannot get thumb go with original :/
                 url = info['url'].replace(" ", "_")
 
