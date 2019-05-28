@@ -5,7 +5,6 @@ import csv
 
 path = '../BS-Shadow-Library/'
 
-
 # --- create BS Shadow Library index
 def create_shadow_index():
 	print('\n*Creating shadow_library.csv ...*')
@@ -22,8 +21,6 @@ def create_shadow_index():
 
 	csvfile.close()
 	print('*shadow_library.csv is created*\n')
-
-# create_shadow_index()
 
 
 # --- make shadow_library.pdf
@@ -78,6 +75,8 @@ def get_pdf_filename(selection_id):
 		if number == pdf_id:
 			return pdf.replace('\\ ', '')
 
-# selection_ids = ['009']
-# selection_ids = ['001', '002', '003']
-# grep_shadow_pdfs(selection_ids)
+if __name__ == '__main__':
+	create_shadow_index()
+	selection_ids = ['009']
+	selection_ids = ['001', '002', '003']
+	grep_shadow_pdfs(selection_ids)
