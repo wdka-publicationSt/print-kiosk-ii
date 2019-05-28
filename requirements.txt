@@ -1,2 +1,8 @@
-mwclient==0.9.1
-pprint==0.1
+bs4
+nltk
+ircutils3
+pypandoc
+mwclient
+html5lib
+pprint
+pyyaml
