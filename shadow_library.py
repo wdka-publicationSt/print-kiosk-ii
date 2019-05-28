@@ -42,7 +42,7 @@ def grep_shadow_pdfs(selection_ids):
 	for selection_id in selection_ids:
 		for item in index:
 			pdf_id = item[0]
-			pdf = item[1].replace(' ', '\ ') # to work with spaces in files
+			pdf = item[1].replace(' ', '\\ ') # to work with spaces in files
 			if selection_id == pdf_id:
 				pdfs.append(path+pdf)
 				print('PDF: *{}* selected!'.format(pdf))
@@ -74,9 +74,9 @@ def get_pdf_filename(selection_id):
 	pdfs = []
 	for item in index:
 		pdf_id = item[0]
-		pdf = item[1].replace(' ', '\ ') # to work with spaces in files
+		pdf = item[1].replace(' ', '\\ ') # to work with spaces in files
 		if number == pdf_id:
-			return pdf.replace('\ ', '')
+			return pdf.replace('\\ ', '')
 
 # selection_ids = ['009']
 # selection_ids = ['001', '002', '003']
