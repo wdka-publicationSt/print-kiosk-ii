@@ -27,10 +27,11 @@ img_dir_files = os.listdir(img_dir)
 
 for wiki_img in list(wiki_images):
     # Download image if is png, jpg, gif and is being used
-    if wiki_img.page_title not in img_dir_files and \
+    if (wiki_img.page_title.replace(' ','_')) not in img_dir_files and \
         ((wiki_img.page_title).split('.')[-1]).lower() \
         in ['png', 'jpg', 'gif'] and \
             len(list(wiki_img.imageusage())) > 0:
+        print(wiki_img.page_title)
         info = wiki_img.imageinfo
         # pprint(info)
         height = info['height']
@@ -43,22 +44,25 @@ for wiki_img in list(wiki_images):
             with urllib.request.urlopen(api_query) as response:
                 api_thumb = response.read().decode('utf-8')
                 api_thumb = json.loads(api_thumb)
-                # import pdb; pdb.set_trace()
+
+            try:
                 api_thumb_key = [*api_thumb['query']['pages'].keys()][0]
                 url = api_thumb['query']['pages'][api_thumb_key]['imageinfo'][0]['thumburl']
+            except: # if cannot get thumb go with original :/
+                url = info['url'].replace(" ", "_")
+
                 # print(url)
         else:  # request regular image
             url = info['url'].replace(" ", "_")
 
 
-        if wiki_img.page_title not in img_dir_files:
-            img_title = wiki_img.page_title.replace(' ', '_')
-            try:
-                urllib.request.urlretrieve(url, img_dir + img_title)
-                print('Image: {} not found. Downloading it!'.format(
-                    wiki_img.page_title))
-            except:
-                print("Error downloading {}".format(url))
-        else:
-            print("{} already present in images dir".format(
+        img_title = wiki_img.page_title.replace(' ', '_')
+        try:
+            urllib.request.urlretrieve(url, img_dir + img_title)
+            print('Image: {} not found. Downloading it!'.format(
                 wiki_img.page_title))
+        except:
+            print("Error downloading {}".format(url))
+    else:
+        print("{} already present in images dir".format(
+            wiki_img.page_title))
