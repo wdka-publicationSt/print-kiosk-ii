@@ -4,3 +4,7 @@ images/
 images/*
 latex.metadata.yaml
 *.pyc
+*.pdf
+__pycache__/
+*.tmp
+*.tmp.*
