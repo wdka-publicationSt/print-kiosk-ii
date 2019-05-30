@@ -8,3 +8,5 @@ latex.metadata.yaml
 __pycache__/
 *.tmp
 *.tmp.*
+*.bak
+prototype*
