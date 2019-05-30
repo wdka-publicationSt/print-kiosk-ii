@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from nltk.tokenize import RegexpTokenizer
 tokenizer = RegexpTokenizer(r'\w+') # initialize tokenizer
 from yaml import load, Loader, Dumper
+from text_processing.wiki_word_count import parse_html
 
 def remove_wiki_elements(soup):
 	"""
