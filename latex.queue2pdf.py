@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 import json
 import re
-from pprint import pprint
-from functions import remove_wiki_elements 
 import pypandoc
-
+from utility_scripts.functions import remove_wiki_elements
 
 
 # * * * * * * * * * * * * * * * * * *

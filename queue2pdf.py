@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 import json
 import os, re, subprocess
-from pprint import pprint
-from functions import remove_wiki_elements, get_yaml_data
 import pypandoc
 from bs4 import BeautifulSoup
 import datetime
+from utility_scripts.functions import remove_wiki_elements, get_yaml_data
 
 
 

@@ -7,7 +7,7 @@
 import json
 from datetime import datetime
 from wikisite import *
-from functions import count_article_length  # TODO : mv2 text_processing/
+from utility_scripts.functions import count_article_length
 from utility_scripts.utilities import findpaths
 
 
