@@ -1,5 +1,5 @@
 #!/bin/sh
-dir=images
+dir=../images
 for img in $dir/*
 do mogrify -depth 8 -colorspace GRAY -ordered-dither h4x4a "$img" 
     # img_new_name=`echo "$img" | sed 's/\ /_/g'`
