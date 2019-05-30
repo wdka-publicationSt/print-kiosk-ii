@@ -209,7 +209,7 @@ def html2pdf(html_tmp_filename, metadata_filename, pdf_filename):
     else:
     	pandoc_pdf_engine_arg = '--pdf-engine'
 
-    cmd = '''pandoc -f html -t latex {pdf_engine_arg} xelatex --template=latex.twocolumns.tex --title "PRINT KIOSK II" --metadata=title:"{title}" --metadata=abstract:"{abstract}" {authors} -N -V papersize=a4 -V version=2.0 -V thanks="Thank you!" -V toc-title="Table of Contents" {inputfile} --toc -o {outputfile}'''.format(
+    cmd = '''pandoc -f html -t latex {pdf_engine_arg} xelatex --template=templates/latex.twocolumns.tex --title "PRINT KIOSK II" --metadata=title:"{title}" --metadata=abstract:"{abstract}" {authors} -N -V papersize=a4 -V version=2.0 -V thanks="Thank you!" -V toc-title="Table of Contents" {inputfile} --toc -o {outputfile}'''.format(
             pdf_engine_arg = pandoc_pdf_engine_arg,
             title = metadata['title'],
             abstract = metadata['abstract'],
@@ -247,7 +247,7 @@ def queue2pdf(data_json_file, queue_json_file, html_tmp_filename, metadata_filen
 if __name__ == '__main__':
 	queue2pdf('all_pages.json', 'queue.tmp.json', 'queue.tmp.html', 'latex.metadata.yaml', 'test.pdf')
 
-	# pandoc -f html -t latex --pdf-engine xelatex --template=latex.twocolumns.tex --title "PRINT KIOSK II" --metadata=title:"Elaine" --metadata=abstract:"ABSTRACT PLACEHOLDER" --metadata=author:"AUTHOR PLACEHOLDER" -N -V papersize=a4 -V version=2.0 -V thanks="Thank you!" -V toc-title="Table of Contents" queue.tmp.html --toc -o test.pdf
+	# pandoc -f html -t latex --pdf-engine xelatex --template=templates/latex.twocolumns.tex --title "PRINT KIOSK II" --metadata=title:"Elaine" --metadata=abstract:"ABSTRACT PLACEHOLDER" --metadata=author:"AUTHOR PLACEHOLDER" -N -V papersize=a4 -V version=2.0 -V thanks="Thank you!" -V toc-title="Table of Contents" queue.tmp.html --toc -o test.pdf
 
 
 	# pandoc -f html -t latex --pdf-engine xelatex -s --title "PRINT KIOSK II" --metadata=title:"Elaine" --metadata=abstract:"ABSTRACT PLACEHOLDER" --metadata=author:"AUTHOR PLACEHOLDER" -N -V papersize=a4 -V version=2.0 -V thanks="Thank you!" -V toc-title="Table of Contents" queue.tmp.html --toc -o test.pdf

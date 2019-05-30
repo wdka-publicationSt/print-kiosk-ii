@@ -17,7 +17,7 @@ read-yaml.py,,Read metadata,Stable,
 receiptprintercmds.py,,Dictionary with receipt printer formating instructions ,Stable,
 images-process.sh,,dithers images,Stable,add resize command
 ,,,,
-latex.twocolumns.tex,,PDF template,,
+templates/latex.twocolumns.tex,,PDF template,,
 ,,,,
 annex.pdf,,,,
 colors.py,,dictionary with terminal colors for printing.,Stable,Not essential
