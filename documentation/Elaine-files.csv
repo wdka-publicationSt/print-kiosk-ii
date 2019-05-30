@@ -6,21 +6,20 @@ download-images.py,,downloads all wiki images,Stable,Run frequently (every time 
 ,,,,
 print-sequence.py,run.py,main script to execute the Elaine print sequence,,
 ,,,,
-functions.py,,??,,
+utility_scripts/functions.py,,??,,
 irc.py,,connects to irc and creates chat interface,Experimental,Improve the chat interface
 other_scripts/latex.queue2pdf.py,,converts html content to PDF using LaTeX,Stable,Address 2  column error
 print-sequence.py,,Integrates all scripts into a sequence of steps. Launched when the user starts,Stable,Start automatically everytime a user finishes. Printing on the background (not stopping sequence)
 questionnaire.py,,"Series of questions to user, which result in article selection",Stable,Add article size/images  questions as fail-safe
-questions.py,,Dictionary with questions for questionnaire.py,Stable,
+utility_scripts/questions.py,,Dictionary with questions for questionnaire.py,Stable,
 queue2pdf.py,,??,,
-read-yaml.py,,Read metadata,Stable,
-receiptprintercmds.py,,Dictionary with receipt printer formating instructions ,Stable,
-images-process.sh,,dithers images,Stable,add resize command
+utility_scripts/receiptprintercmds.py,,Dictionary with receipt printer formating instructions ,Stable,
+utility_scripts/images-process.sh,,dithers images,Stable,add resize command
 ,,,,
 templates/latex.twocolumns.tex,,PDF template,,
 ,,,,
 annex.pdf,,,,
-colors.py,,dictionary with terminal colors for printing.,Stable,Not essential
+utility_scripts/colors.py,,dictionary with terminal colors for printing.,Stable,Not essential
 ,,,,
 ,,,,
 ,,,,

@@ -10,7 +10,9 @@ from queue2pdf import queue2pdf
 import argparse
 from utility_scripts.receiptprintercmds import escpos, asciiart, stdout, stderr
 from irc import irc
+from utility_scripts.utilities import findpaths
 
+path_file, path_dir, path_parentdir = findpaths(__file__)
 
 #############
 # squence started by every new user/print
@@ -18,7 +20,7 @@ from irc import irc
 
 print(escpos['init_printer'], file=stdout)
 print(escpos['justify_center'], file=stdout)
-greeting = open("ELAINE.txt", "r").read()
+greeting = open(path_dir + "/templates/" + "ELAINE.txt", "r").read()
 print(greeting, file=stdout)
 print(asciiart['flames2'], file=stdout)
 print(escpos['justify_left'], file=stdout)
