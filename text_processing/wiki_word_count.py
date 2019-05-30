@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import json
 from pprint import pprint
 
@@ -42,6 +43,9 @@ def count_article_length(text):
 
 if __name__ == '__main__':
     import sys
+    # WARNING: utilities module will only load
+    # when __file__ is run from its dir ./wiki_word_count.py
+    # and not: ./text_processing/wiki_word_count.py
     sys.path.append('../utility_scripts/')
     from utilities import findpaths
     
