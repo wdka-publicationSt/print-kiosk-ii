@@ -8,7 +8,7 @@ from time import sleep
 from questionnaire import questionnaire
 from queue2pdf import queue2pdf
 import argparse
-from receiptprintercmds import escpos, asciiart, stdout, stderr
+from utility_scripts.receiptprintercmds import escpos, asciiart, stdout, stderr
 from irc import irc
 
 

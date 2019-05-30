@@ -7,7 +7,7 @@ from time import sleep
 from getpass import getpass
 import re
 from shadow_library import grep_shadow_pdfs, get_pdf_filename
-from receiptprintercmds import escpos, asciiart, stdout, stderr
+from utility_scripts.receiptprintercmds import escpos, asciiart, stdout, stderr
 
 class bs_irc_user(bot.SimpleBot):
 

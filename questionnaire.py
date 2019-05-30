@@ -2,12 +2,12 @@
 from sys import stdin, stderr, stdout
 import json
 from datetime import datetime
-from questions import questions
-from colors import colors
 from pprint import pprint
 from search_wiki import search_request
 from random import shuffle
-from receiptprintercmds import escpos, asciiart, stdout, stderr
+from utility_scripts.receiptprintercmds import escpos, asciiart, stdout, stderr
+from utility_scripts.colors import colors
+from utility_scripts.questions import questions
 
 
 # * * * * * * * * * * * * * * * * * * * * * * *
