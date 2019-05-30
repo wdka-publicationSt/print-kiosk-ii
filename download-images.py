@@ -4,22 +4,21 @@
 # Script downloads all wiki images onto the img/ dir
 # 1 it begins by getting a list of all images form API
 # 1.1 if the image file IS NOT stored in the images folder: it downloads it
-# 1.2 if the image file IS stored in the images folder: it reads its checksum
-# 1.2.2 if different (the image has changed in server) then  it downloads it
 ###
 
 import os, urllib.request, json
 from hashlib import sha1
 from wikisite import *
 from pprint import pprint
+from utility_scripts.utilities import findpaths
 
 wiki_images = site.images
 api = '{protocol}://{host}{path}api.php?'.format(protocol='https',
                                                  host=site.host,
                                                  path=site.path)
 set_hight = 800
-current_dir = os.path.dirname(os.path.realpath(__file__))
-img_dir = os.path.dirname(os.path.realpath(__file__)) + '/images/'
+path_file, path_dir, path_parentdir = findpaths(__file__)
+img_dir = path_dir + '/images/'
 if os.path.exists(img_dir) is False:
     os.mkdir(img_dir)
 img_dir_files = os.listdir(img_dir)
