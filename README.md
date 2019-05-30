@@ -74,7 +74,7 @@ An overview of all the files and a short description of what they do can be foun
 
 # Run Elaine
 
-To execute Elaine use `print-sequence.py`.
+To execute Elaine use `run.py`.
 
 A conversation with Elaine follows 2 scenes:.
 

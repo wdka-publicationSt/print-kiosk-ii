@@ -3,7 +3,7 @@
 A text based conversational interface to the Beyond Social wiki, which returns a print publication for each user.
 
 ## Run
-`./print-sequence.py`
+`./run.py`
 * \# 1 - start questionnaire
 	* calls `questionnaire()` from  `./questionnaire.py`
 	* which create `articles_index`
