@@ -171,10 +171,11 @@ def queue2html(queue, html_filename):
 
 # --- check pandoc version
 def check_pandoc_version():
-    request = subprocess.run(["pandoc", "--version"], capture_output=True)
-    version_text = request.stdout.decode().split('\n')
-    version_string = version_text[0].replace('pandoc ', '').split('.')
-    version = int(version_string[0])
+    request = subprocess.Popen(["pandoc", "--version"], stdout=subprocess.PIPE)
+    version_text = request.communicate()[0].decode()
+    version_string = version_text.split('\n')[0]
+    version_string = version_string.split(' ')[-1]
+    version = int(version_string.split('.')[0])
     return version
 
 # --- use pandoc to convert the html file into a pdf with the LaTeX engine
