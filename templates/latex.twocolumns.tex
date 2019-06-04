@@ -39,23 +39,14 @@
 \providecommand{\tightlist}{%
 \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-% \usepackage{abstract} % Allows abstract customization
-% \renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
-% \renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
-
-\usepackage{titlesec} % Allows customization of titles
-\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
-\renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
-\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
-\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
-
 \usepackage{fancyhdr} % Headers and footers
 \pagestyle{fancy} % All pages have headers and footers
 \fancyhead{} % Blank out the default header
 \fancyfoot{} % Blank out the default footer
-\fancyhead[]{\title{Article Title}} % Custom header text
+\fancyhead[]{\title{Elaine}} % Custom header text
 \fancyfoot[RO,LE]{\thepage} % Custom footer text
 
+\usepackage{titlesec} % Allows customization of titles
 \usepackage{titling} % Customizing the title section
 
 \usepackage{hyperref} % For hyperlinks in the PDF
@@ -66,11 +57,7 @@ $if(graphics)$
 \setkeys{Gin}{width=\linewidth, keepaspectratio}
 $endif$
 
-% this was an error that i got, so i added this package
-% https://tex.stackexchange.com/questions/161431/how-to-solve-longtable-is-not-in-1-column-mode-error
 \usepackage{longtable}
-% \usepackage{supertabular}
-
 
 $if(lang)$
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
@@ -102,7 +89,7 @@ $if(dir)$
 $endif$
 
 %----------------------------------------------------------------------------------------
-%	TITLE SECTION
+%	COVER PAGE SECTION
 %----------------------------------------------------------------------------------------
 
 \setlength{\droptitle}{-4\baselineskip} % Move the title up
@@ -118,18 +105,32 @@ $if(author)$
 $endif$
 
 \date{\today} % Leave empty to omit a date
-\renewcommand{\maketitlehookd}{%
-% \begin{abstract}
-% $abstract$
-% \end{abstract}
-}
+
+\renewcommand{\maketitlehookd}{}
 
 %----------------------------------------------------------------------------------------
 
 \begin{document}
 
+% Remove "Chapter" from article titles
+% From: https://tex.stackexchange.com/questions/30530/remove-chapter-from-the-chapter-title-but-keep-chapter-number-in-the-table-o#30537
+\makeatletter
+\def\@makechapterhead#1{%
+  \vspace*{50\p@}%
+    {\parindent \z@ \raggedright \normalfont
+      \interlinepenalty\@M
+      \Huge \bfseries #1\par\nobreak
+      \vskip 40\p@
+    }
+  }
+  \makeatother
+
 % Print the title
 \maketitle
+
+% Print abstract
+\chapter*{Elaine}
+$if(abstract)$$abstract$$endif$
 
 %----------------------------------------------------------------------------------------
 %	ARTICLES
