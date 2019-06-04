@@ -26,7 +26,6 @@ questions = {
     '04-irc' : {
     'question' : "",
         'variables' : [], 
-        # more words could be here, from which only 3 will be randomly selected, and more if needed in order to  exampand the print quue
         'reply' : '',
         'error': '',
         'user_answers': None
