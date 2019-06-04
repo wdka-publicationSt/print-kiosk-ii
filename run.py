@@ -68,7 +68,7 @@ questionnaire_pdf = 'tmp/queue.{}.pdf'.format(timestamp)
 # @TODO: add next line to print-sequence:
 # print('Please be patient. I am working on producing your print out', asciiart['flames2'], file=stdout)
 queue2pdf('all_pages.json', 'queue.tmp.json',
-          'queue.tmp.html', 'latex.metadata.yaml', questionnaire_pdf)
+          'queue.tmp.html', 'metadata.tmp.yaml', questionnaire_pdf)
 # @TODO: trick to add a custom abstract (instead of an abstract through LaTeX):
 # cmd = 'pdftk {} multibackground {} output {}'.format(
 #               questionnaire_pdf, 'abstract.pdf', questionnaire_pdf)
@@ -91,7 +91,7 @@ print('First PDF (questionnaire selection) is printing ...')
 """
 	Start the IRC session with the Shadow Library librarian.
 """
-irc("bs_user")  # start the IRC chat
+irc("bs_user")  # start the IRC chat in #beyondsocial at freenode
 # irc module listens to #shadowlibrary key to collect PDF(s) from Shadow Library.
 # A PDF can be selected by using the id number from the shadow_library.csv file.
 # For example: #shadowlibrary 7
