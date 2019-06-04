@@ -11,22 +11,9 @@ Elaine is a text based conversational interface to the Beyond Social wiki. Elain
 ## Software
 * poppler-utils
 * [pandoc](https://pandoc.org/) version? -- on the pi: use apt to install
-* texlive-xetex 
+* texlive-xetex (install TeX Live via net install, see <https://github.com/wdka-publicationSt/print-kiosk-ii/issues/2>)
 * pdfjam 
 * pandoc
-<!-- 
-You need to install the `bidi` (bidirectional) package of TeX.
-You can do this by using the TeX package manager tlmgr.
-
-If you never used tlmgr before, you need to init the user tree:
-	
-	$ tlmgr init-usertree
-
-In case you need to upgrade tlmgr, follow this page: [https://tug.org/texlive/upgrade.html](https://tug.org/texlive/upgrade.html)
-
-Then install the `bidi` package:
-
-	$ tlmgr  -->
 
 * python3 Libraries (via pip3)
   * bs4 (BeuatifulSoup)
@@ -54,24 +41,6 @@ Elaine runs directly from the pi. Before she can be started, you need to downloa
   * connect the thermal printer to the pi (USB)
   * connect the laster printer to the pi (USB)
 
-# Bird eye perspective
-In a bird perspective, the plan at the moment is to work on ...
-
-* download all wiki content (using API requests)
-  * Article Index
-  * API content gathering
-
-* conversational interface with Elaine 
-	* scene 1 = chat bot (questionnaire)
-		* design of wiki articles using **LaTEX**
-		* design of an **annex** using (?)
-	* scene 2 = irc chat (chat with online librarians)
-		* merging PDFs with PDFJam
-
-# Scripts
-
-An overview of all the files and a short description of what they do can be found in the file `Elaine-files.csv`.
-
 # Run Elaine
 
 To execute Elaine use `run.py`.
@@ -85,6 +54,24 @@ First Elaine asks you questions that are based on **metadata**.
 Then she asks you questions about **Frictionary topics**.
 
 ## Scene 2 - Shadow Library (IRC librarian chat)
+
+# Scripts
+
+An overview of all the files and a short description of what they do can be found in the file `Elaine-files.csv`.
+
+# Bird eye perspective
+In a bird perspective, the plan at the moment is to work on ...
+
+* download all wiki content (using API requests)
+  * Article Index
+  * API content gathering
+
+* conversational interface with Elaine 
+  * scene 1 = chat bot (questionnaire)
+    * design of wiki articles using **LaTEX**
+    * design of an **annex** using (?)
+  * scene 2 = irc chat (chat with online librarians)
+    * merging PDFs with PDFJam
 
 -----
 
