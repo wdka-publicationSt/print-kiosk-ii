@@ -6,7 +6,7 @@
 # 1.1 if the image file IS NOT stored in the images folder: it downloads it
 ###
 
-import os, urllib.request, json
+import os, urllib.request, json, subprocess, shlex
 from hashlib import sha1
 from wikisite import *
 from pprint import pprint
@@ -60,6 +60,11 @@ for wiki_img in list(wiki_images):
             urllib.request.urlretrieve(url, img_dir + img_title)
             print('Image: {} not found. Downloading it!'.format(
                 wiki_img.page_title))
+            img_dither_cmd = 'mogrify -depth 8 -colorspace GRAY \
+            -ordered-dither h4x4a "{}"'.format(img_dir + img_title)
+            print('Processing image:{}'.format(img_dither_cmd))
+            img_dither_cmd = shlex.split(img_dither_cmd)
+            subprocess.call(img_dither_cmd)
         except:
             print("Error downloading {}".format(url))
     else:

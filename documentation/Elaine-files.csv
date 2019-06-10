@@ -15,7 +15,6 @@ utility_scripts/functions.py,"collection of short scripts to
 - get yaml data from a metadata template (not used)",,
 utility_scripts/questions.py,Dictionary with questions for questionnaire.py,Stable,
 utility_scripts/receiptprintercmds.py,Dictionary with receipt printer formating instructions ,Stable,
-utility_scripts/images-process.sh,dithers images,Stable,add resize command
 utility_scripts/colors.py,dictionary with terminal colors for printing.,Stable,Not essential
 ,,,
 questionnaire.py,"Series of questions to user, which result in article selection",Stable,Add article size/images  questions as fail-safe
