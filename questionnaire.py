@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 from pprint import pprint
 from search_wiki import search_request
-from random import shuffle
+from random import shuffle, randint
 from utility_scripts.receiptprintercmds import escpos, asciiart, stdout, stderr
 from utility_scripts.colors import colors
 from utility_scripts.questions import questions
@@ -41,6 +41,18 @@ def check_first_edit(first_edit_hour):
 
 # 1:  Load pages index
 data = load_mw_data()
+
+# seperate articles from this year from other
+current_year = str(((datetime.now()).year))  # add -1 for prev year :)
+data_current_year = {page: page_data for page, page_data in
+                     data.items() if
+                     current_year in page_data['categories']}
+data_other_years = {page: page_data for page, page_data in
+                    data.items() if
+                    current_year not in page_data['categories']}
+
+# seperate articles from this year from other
+# if year in data['Rainbows and Unicorns']['categories']
 
 
 def questionnaire():
@@ -81,9 +93,9 @@ def questionnaire():
 
             # populate the articles_index by comparing the answer
             # with the officehours
-            for page, page_data in data.items():
+            for page, page_data in data_other_years.items():
                 # hour of first edit of page
-                first_edit_hour = data[page]['revisions']['first_revision_time'][3]
+                first_edit_hour = data_other_years[page]['revisions']['first_revision_time'][3]
                 # first_edit_hour matches the officehours? yes or no
                 check = check_first_edit(first_edit_hour)
                 # yes(officehours) in yes(answer)
@@ -176,10 +188,17 @@ def questionnaire():
  #           print('\n\n\n> > > In the print queue, {} pages were found to contain the words {}\n\n\n'.format(len(articles_index),(", ").join(user_terms) ),file=stdout )
 #            print( '\n\n\n> > > The following articles will be printed:\n\n\n', colors.GREEN, (("\n\n\n").join(articles_index ) ), colors.ENDC )
 
+    # Articles from current year
+    index_current_year = [*data_current_year]  # list of keys (titles)
+    shuffle(index_current_year)  # shuffle their order
+    index_current_year = index_current_year[:(randint(2, 3))]  # select 2 or 3
+    articles_index += index_current_year 
+
     return articles_index
 
 
 # if questionnaire.py is run directly, not imported
 if __name__ == '__main__':
     articles_index = questionnaire()
+
     pprint(articles_index)
