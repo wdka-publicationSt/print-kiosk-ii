@@ -11,8 +11,12 @@ import argparse
 from utility_scripts.receiptprintercmds import escpos, asciiart, stdout, stderr
 from irc import irc
 from utility_scripts.utilities import findpaths
+from utility_scripts.utilities import rm_files
 
 path_file, path_dir, path_parentdir = findpaths(__file__)
+
+# remove tmp files:
+rm_files(directory=path_dir + '/tmp', file_regex='queue.*\.pdf')
 
 #############
 # squence started by every new user/print
@@ -34,8 +38,8 @@ sleep(3)
 # * * * * * * * * *
 
 """
-	Start Elaine. Start the questionnaire.
-	The questionnaire script stores the print queue as a list.
+ Start Elaine. Start the questionnaire.
+ The questionnaire script stores the print queue as a list.
 """
 print('\n\n\n', 'Please hit [ENTER] to meet Elaine ...',
       '\n\n\n\n\n\n\n', file=stdout)
@@ -44,8 +48,8 @@ if answer == '\n':
     print_queue = questionnaire() # list with article names, eg.: ['article1', 'article2', 'article3']
 
 """
-	Processing the print queue, saving it to a .json file, 
-	and counting the current number of articles in the queue.
+ Processing the print queue, saving it to a .json file, 
+ and counting the current number of articles in the queue.
 """
 f = open('all_pages.json', 'r').read()
 all_pages = json.loads(f)
@@ -56,10 +60,10 @@ w.close()
 print('print_queue contains:', len(print_queue_dict), 'articles')
 
 """
-	Converting the print queue to one PDF.
-	The queue2pdf script first collects all the articles in a html file called queue.tmp.html.
-	It then turns this html file into a PDF, using LaTEX templates and Pandoc to convert.
-	The print queue is saved as queue.pdf.
+ Converting the print queue to one PDF.
+ The queue2pdf script first collects all the articles in a html file called queue.tmp.html.
+ It then turns this html file into a PDF, using LaTEX templates and Pandoc to convert.
+ The print queue is saved as queue.pdf.
 """
 timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 if os.path.isdir('tmp') is False:
@@ -74,7 +78,7 @@ queue2pdf('all_pages.json', 'queue.tmp.json',
 #               questionnaire_pdf, 'abstract.pdf', questionnaire_pdf)
 
 """
-	Print the questionnaire PDF on the laser printer.
+ Print the questionnaire PDF on the laser printer.
 """
 cmd = "lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(pdf=questionnaire_pdf)
 print(cmd)
@@ -89,7 +93,7 @@ print('First PDF (questionnaire selection) is printing ...')
 # * * * * * * * * *
 
 """
-	Start the IRC session with the Shadow Library librarian.
+ Start the IRC session with the Shadow Library librarian.
 """
 irc("bs_user")  # start the IRC chat in #beyondsocial at freenode
 # irc module listens to #shadowlibrary key to collect PDF(s) from Shadow Library.
@@ -97,16 +101,16 @@ irc("bs_user")  # start the IRC chat in #beyondsocial at freenode
 # For example: #shadowlibrary 7
 
 """
-	Resize the selected PDF to A4. 
+ Resize the selected PDF to A4. 
 """
 shadow_library_pdf = 'shadow_library.pdf'
 shadow_library_pdf_a4 = 'shadow_library_A4.pdf'
 cmd_resize_SL = "pdfjam --outfile {} --paper a4paper {}".format(
-	shadow_library_pdf_a4, shadow_library_pdf)
+ shadow_library_pdf_a4, shadow_library_pdf)
 os.system(cmd_resize_SL)
 
 """
-	Print Shadow Library PDF.
+ Print Shadow Library PDF.
 """
 cmd = "lp -d HP_LaserJet_500_colorMFP_M570dn -o media=a4 {pdf}".format(
     pdf=shadow_library_pdf_a4)
@@ -115,7 +119,7 @@ os.system(cmd)
 print('Second PDF (shadow_library) is printing ...')
 
 """
-	Print ANNEX.
+ Print ANNEX.
 """
 print('ps. .... I will add an ANNEX for you as well, to leak some information from the making process. Hope you will enjoy it!',
       asciiart['flames2'], file=stdout)
@@ -128,7 +132,7 @@ print('Third PDF (annex) is printing ... (Last one!)')
 
 
 """
-	The end. EOF. EOConversation.
+ The end. EOF. EOConversation.
 """
 sleep(3)
 print(escpos['papercut'], file=stdout)  # move to print-sequence

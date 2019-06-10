@@ -1,4 +1,5 @@
-from os import path
+import re
+from os import path, listdir, remove
 
 
 def findpaths(current_file):
@@ -14,3 +15,10 @@ def findpaths(current_file):
     return file_path, current_dir, parent_dir
 
 # print(file_path, parent_dir)
+
+def rm_files(directory, file_regex):
+    # print(directory, file_regex)
+    for filename in listdir(directory):
+        if re.match(file_regex, filename):
+            remove(directory + '/' + filename)
+ 
