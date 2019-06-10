@@ -99,15 +99,12 @@ def create_metadata_authors_string(authors):
     string = ''
     for author in authors:
         tmp = '- name: {}'.format(author)
-        string = string +'\n'+ tmp
+        string += tmp + '\n'
     return string
 
 def create_metadata_file(metadata_filename, authors):
     authors_string = create_metadata_authors_string(authors)
-    authors = '''
-author:
-{}
-'''.format(authors_string)
+    authors = '''author:\n{}'''.format(authors_string)
     static_metadata = open('metadata.yaml', 'r').read()
     out = open(metadata_filename, 'w+')
     out.write(static_metadata+authors)

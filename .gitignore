@@ -7,7 +7,7 @@ untracked_py/
 zz/
 text_processing/wiki_word_count-alltext.txt
 latex.metadata.yaml
-metadata.yaml
+!metadata.yaml
 queue.json
 all_pages.json
 *.pyc
