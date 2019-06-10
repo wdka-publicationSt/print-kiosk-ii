@@ -67,6 +67,7 @@ def questionnaire():
         options = questions[key]['variables']
         reply = questions[key]['reply']
         error = questions[key]['error']
+        noanswer = questions[key]['noanswer']
 
         if 'time' in key:
             while True:
@@ -124,6 +125,12 @@ def questionnaire():
                 print(escpos['justify_center'], answer,
                       asciiart['flames2'], file=stdout)
                 print(escpos['justify_left'], file=stdout)
+
+                if answer == '\n':  # empty answer:
+                    n -= 1  # don't count as iteration
+                    print(noanswer, asciiart['flames2'], file=stdout)
+                    continue  # go to start of while loop
+
                 search_results = search_request(query=answer,
                                                 namespace='0',
                                                 reach='text')
@@ -160,11 +167,19 @@ def questionnaire():
             shuffle(options)
             # print( options )
             for option in options:
-                subquestion = 'When I say {}, you say: ___________'.format(option)
-                print(subquestion, asciiart['flames2'], file=stdout)
-                answer = stdin.readline()
-                print(escpos['justify_center'],answer, asciiart['flames2'], file=stdout)
-                print(escpos['justify_left'], file=stdout)
+                while True:
+                    subquestion = 'When I say {}, you say: ___________'.format(option)
+                    print(subquestion, asciiart['flames2'], file=stdout)
+                    answer = stdin.readline()
+                    print(escpos['justify_center'],answer, asciiart['flames2'], file=stdout)
+                    print(escpos['justify_left'], file=stdout)
+                
+                    if answer == '\n':  # empty answer:
+                        print(noanswer, asciiart['flames2'], file=stdout)
+                        continue  # go to start of while loop
+                    else:
+                        break
+
                 user_terms.append(answer.replace('\n', '')) # TODO add to questions dict                
                 search = search_request(query=answer, namespace=0, reach='text')
                 for i in  list( set(articles_index).intersection( search ) ):
