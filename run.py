@@ -51,10 +51,10 @@ if answer == '\n':
  Processing the print queue, saving it to a .json file, 
  and counting the current number of articles in the queue.
 """
-f = open('all_pages.json', 'r').read()
+f = open(path_dir + '/' + 'all_pages.json', 'r').read()
 all_pages = json.loads(f)
 print_queue_dict = {page: all_pages[page] for page in print_queue}
-w = open('queue.tmp.json', 'w') # saving print queue to tmp file
+w = open(path_dir + '/' + 'queue.tmp.json', 'w') # saving print queue to tmp file
 w.write(json.dumps(print_queue_dict, indent=4))
 w.close()
 print('print_queue contains:', len(print_queue_dict), 'articles')
@@ -66,13 +66,12 @@ print('print_queue contains:', len(print_queue_dict), 'articles')
  The print queue is saved as queue.pdf.
 """
 timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-if os.path.isdir('tmp') is False:
-    os.mkdir('tmp')
-questionnaire_pdf = 'tmp/queue.{}.pdf'.format(timestamp)
+if os.path.isdir(path_dir + '/' + 'tmp') is False:
+    os.mkdir(path_dir + '/' +'tmp')
+questionnaire_pdf = path_dir + '/' + 'tmp/queue.{}.pdf'.format(timestamp)
 # @TODO: add next line to print-sequence:
 # print('Please be patient. I am working on producing your print out', asciiart['flames2'], file=stdout)
-queue2pdf('all_pages.json', 'queue.tmp.json',
-          'queue.tmp.html', 'metadata.tmp.yaml', questionnaire_pdf)
+queue2pdf('all_pages.json', 'queue.tmp.json', 'queue.tmp.html',  'metadata.tmp.yaml', questionnaire_pdf)
 # @TODO: trick to add a custom abstract (instead of an abstract through LaTeX):
 # cmd = 'pdftk {} multibackground {} output {}'.format(
 #               questionnaire_pdf, 'abstract.pdf', questionnaire_pdf)

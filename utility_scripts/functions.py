@@ -6,6 +6,9 @@ from nltk.tokenize import RegexpTokenizer
 tokenizer = RegexpTokenizer(r'\w+') # initialize tokenizer
 from yaml import load, Loader, Dumper
 from utility_scripts.wiki_word_count import parse_html
+from utility_scripts.utilities import findpaths
+
+path_file, path_dir, path_parentdir = findpaths(__file__)
 
 def remove_wiki_elements(soup):
 	"""
@@ -38,7 +41,7 @@ def count_article_length(html):
 	return length
 
 def get_yaml_data(filename):
-    yaml_f = open(filename, "r").read()
+    yaml_f = open(path_parentdir + '/' + filename, "r").read()
     data = load(yaml_f, Loader=Loader)
     metadata = {}
     metadata['title'] = data['title']

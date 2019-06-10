@@ -5,8 +5,9 @@ import pypandoc
 from bs4 import BeautifulSoup
 import datetime
 from utility_scripts.functions import remove_wiki_elements, get_yaml_data
+from utility_scripts.utilities import findpaths
 
-
+path_file, path_dir, path_parentdir = findpaths(__file__)
 
 # * * * * * * * * * * * * * * * * * *
 # queue.tmp.json > queue.tmp.html
@@ -14,7 +15,7 @@ from utility_scripts.functions import remove_wiki_elements, get_yaml_data
 
 # --- load all contributors
 def load_all_contributors(data):
-    f = open(data, 'r').read()
+    f = open(path_dir + '/' + data, 'r').read()
     data = json.loads(f)
     all_pages_contributors = []
     for page, _ in data.items():
@@ -27,7 +28,7 @@ def load_all_contributors(data):
 
 # --- load print queue
 def load_print_queue(data):
-    f = open(data, 'r').read()
+    f = open(path_dir + '/' + data, 'r').read()
     queue = json.loads(f)
     return queue
 
@@ -105,8 +106,8 @@ def create_metadata_authors_string(authors):
 def create_metadata_file(metadata_filename, authors):
     authors_string = create_metadata_authors_string(authors)
     authors = '''author:\n{}'''.format(authors_string)
-    static_metadata = open('metadata.yaml', 'r').read()
-    out = open(metadata_filename, 'w+')
+    static_metadata = open(path_dir + '/' + 'metadata.yaml', 'r').read()
+    out = open(path_dir + '/' + metadata_filename, 'w+')
     out.write(static_metadata+authors)
     out.close()
 
@@ -135,7 +136,7 @@ def queue2html(queue, html_filename):
             queue_html += current_page_html
 
     queue_html = base_header_shift(queue_html)  
-    out = open(html_filename, 'w')
+    out = open(path_dir + '/' + html_filename, 'w')
     out.write(queue_html)
     out.close()
 

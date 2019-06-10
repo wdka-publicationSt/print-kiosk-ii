@@ -8,7 +8,7 @@ from random import shuffle, randint
 from utility_scripts.receiptprintercmds import escpos, asciiart, stdout, stderr
 from utility_scripts.colors import colors
 from utility_scripts.questions import questions
-
+from utility_scripts.utilities import findpaths
 
 # * * * * * * * * * * * * * * * * * * * * * * *
 # Questions asked to the user generate the Articles' index
@@ -21,10 +21,10 @@ from utility_scripts.questions import questions
 # to each question
 # That is done in the main loop which cycles thought the *questions* dict
 # and if conditions trigger the different processes for each question
-
+path_file, path_dir, path_parentdir = findpaths(__file__)
 
 def load_mw_data(): # Load pages index
-    f = open('all_pages.json', 'r').read()
+    f = open( path_dir + '/' +'all_pages.json', 'r').read()
     data = json.loads(f)
     return data
 

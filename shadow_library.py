@@ -2,8 +2,10 @@
 
 import os
 import csv
+from utility_scripts.utilities import findpaths
 
-path = '../BS-Shadow-Library/'
+path_file, path_dir, path_parentdir = findpaths(__file__)
+path = path_parentdir + '/BS-Shadow-Library/'
 
 # --- create BS Shadow Library index
 def create_shadow_index():
@@ -12,7 +14,7 @@ def create_shadow_index():
 
 	# print(shadow_library)
 
-	csvfile = open('shadow_library.csv', 'w+')
+	csvfile = open(path_dir + '/' + 'shadow_library.csv', 'w+')
 
 	for i, pdf in enumerate(shadow_library):
 		pdf_id = '{0:03}'.format(i)
@@ -31,7 +33,7 @@ def grep_shadow_pdfs(selection_ids):
 	if os.path.isfile('shadow_library.csv') == False: 
 		create_shadow_index()
 
-	index = open('shadow_library.csv', 'r').readlines()
+	index = open(path_dir + '/' + 'shadow_library.csv', 'r').readlines()
 	index = [item.replace('\n', '') for item in index]
 	index = [item.split('\t') for item in index]
 	# print(index)
@@ -60,11 +62,11 @@ def grep_shadow_pdfs(selection_ids):
 
 def get_pdf_filename(selection_id):
 	# check if the shadow_library.csv file needs to be created
-	if os.path.isfile('shadow_library.csv') == False: 
+	if os.path.isfile(path_dir + '/' + 'shadow_library.csv') == False: 
 		create_shadow_index()
 
 	number = selection_id[0]
-	index = open('shadow_library.csv', 'r').readlines()
+	index = open(path_dir + '/' + 'shadow_library.csv', 'r').readlines()
 	index = [item.replace('\n', '') for item in index]
 	index = [item.split('\t') for item in index]
 	# print(index)
