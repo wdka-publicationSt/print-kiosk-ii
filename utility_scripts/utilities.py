@@ -18,7 +18,8 @@ def findpaths(current_file):
 
 def rm_files(directory, file_regex):
     # print(directory, file_regex)
-    for filename in listdir(directory):
-        if re.match(file_regex, filename):
-            remove(directory + '/' + filename)
+    if path.isdir(directory):
+        for filename in listdir(directory):
+            if re.match(file_regex, filename):
+                remove(directory + '/' + filename)
  
