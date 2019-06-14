@@ -6,3 +6,4 @@ mwclient
 html5lib
 pprint
 pyyaml
+slixmpp
